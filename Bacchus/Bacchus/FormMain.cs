@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bacchus.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,13 @@ namespace Bacchus
         public FormMain()
         {
             InitializeComponent();
+        }
+
+        private void importerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+           ImportForm Import = new ImportForm();
+            Import.Show();
         }
     }
 }
