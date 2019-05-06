@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Bacchus.DB
 {
-    class DAO
+    abstract class DAO
     {
-        private SQLiteConnection Connection;
+        protected SQLiteConnection Connection;
         private string DatabasePath = "..\\DB\\Bacchus.SQLite";
-        public void CreateDataBase()
+        public DAO()
         {
             this.Connection = new SQLiteConnection(DatabasePath);
         }

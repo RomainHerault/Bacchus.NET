@@ -63,6 +63,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DB\DAOBrand.cs" />
+    <Compile Include="DB\DAOCategory.cs" />
+    <Compile Include="DB\DAOProduct.cs" />
+    <Compile Include="DB\DAOSubCategory.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\SubCategory.cs" />
     <Compile Include="ProductNew.cs">
