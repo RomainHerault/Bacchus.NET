@@ -1,6 +1,7 @@
 ﻿using Bacchus.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Bacchus
@@ -25,25 +26,6 @@ namespace Bacchus
             base.Dispose(disposing);
         }
 
-        HashSet<Product> productsSet = new HashSet<Product>();
-
-        BindingSource treeViewBs = new BindingSource();
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            foreach (Product myProduct in productsSet) {
-                treeViewBs.Add(myProduct);
-            }
-        }
-
-        private void generateData()
-        {
-            Category myCategory = new Category("MyCategory");
-        
-            SubCategory mySubCategory = new SubCategory("MySubCategory", myCategory);
-
-            Product myProduct = new Product("MyDescription", "0123456789", "MyBrand", mySubCategory, 123.456f);
-        }
 
         #region Code généré par le Concepteur Windows Form
 
@@ -59,7 +41,7 @@ namespace Bacchus
             this.importerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.ProductsTreeView = new System.Windows.Forms.TreeView();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.listView1 = new System.Windows.Forms.ListView();
             this.menuStrip1.SuspendLayout();
@@ -72,7 +54,8 @@ namespace Bacchus
             this.fichierToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(600, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -83,76 +66,83 @@ namespace Bacchus
             this.importerToolStripMenuItem,
             this.exporterToolStripMenuItem});
             this.fichierToolStripMenuItem.Name = "fichierToolStripMenuItem";
-            this.fichierToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+            this.fichierToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.fichierToolStripMenuItem.Text = "Fichier";
             // 
             // actualiserToolStripMenuItem
             // 
             this.actualiserToolStripMenuItem.Name = "actualiserToolStripMenuItem";
-            this.actualiserToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.actualiserToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.actualiserToolStripMenuItem.Text = "Actualiser";
             // 
             // importerToolStripMenuItem
             // 
             this.importerToolStripMenuItem.Name = "importerToolStripMenuItem";
-            this.importerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.importerToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.importerToolStripMenuItem.Text = "Importer";
             this.importerToolStripMenuItem.Click += new System.EventHandler(this.importerToolStripMenuItem_Click);
             // 
             // exporterToolStripMenuItem
             // 
             this.exporterToolStripMenuItem.Name = "exporterToolStripMenuItem";
-            this.exporterToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.exporterToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.exporterToolStripMenuItem.Text = "Exporter";
             // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 344);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(600, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // treeView1
+            // ProductsTreeView
             // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.treeView1.Location = new System.Drawing.Point(0, 28);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(121, 400);
-            this.treeView1.TabIndex = 2;
+            this.ProductsTreeView.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ProductsTreeView.Location = new System.Drawing.Point(0, 24);
+            this.ProductsTreeView.Margin = new System.Windows.Forms.Padding(2);
+            this.ProductsTreeView.Name = "ProductsTreeView";
+            this.ProductsTreeView.Size = new System.Drawing.Size(92, 320);
+            this.ProductsTreeView.TabIndex = 2;
+            this.ProductsTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ProductsTreeView_NodeMouseClick);
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(121, 28);
+            this.splitter1.Location = new System.Drawing.Point(92, 24);
+            this.splitter1.Margin = new System.Windows.Forms.Padding(2);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 400);
+            this.splitter1.Size = new System.Drawing.Size(2, 320);
             this.splitter1.TabIndex = 3;
             this.splitter1.TabStop = false;
             // 
             // listView1
             // 
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(124, 28);
+            this.listView1.Location = new System.Drawing.Point(94, 24);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(676, 400);
+            this.listView1.Size = new System.Drawing.Size(506, 320);
             this.listView1.TabIndex = 4;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.splitter1);
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.ProductsTreeView);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormMain";
             this.Text = "FormMain";
+            this.Load += new System.EventHandler(this.FormMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -168,7 +158,7 @@ namespace Bacchus
         private System.Windows.Forms.ToolStripMenuItem importerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exporterToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView ProductsTreeView;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.ListView listView1;
     }
