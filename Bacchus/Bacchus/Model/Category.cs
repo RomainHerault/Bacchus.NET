@@ -9,14 +9,19 @@ namespace Bacchus.Model
 {
     class Category
     {
-        private string Description { get; set; }
+        public string Description { get; set; }
 
-        private HashSet<SubCategory> SubCategories { get; set; } 
+        public HashSet<SubCategory> SubCategories { get; set; } 
 
-        public Category(string Description, HashSet<SubCategory> SubCategories)
+        public Category(string Description)
         {
             this.Description = Description;
-            this.SubCategories = SubCategories;
+            SubCategories = new HashSet<SubCategory>();
+        }
+
+        public void AddSubCategory(SubCategory SubCategory)
+        {
+            SubCategories.Add(SubCategory);
         }
     }
 }

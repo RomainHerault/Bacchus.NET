@@ -8,25 +8,22 @@ namespace Bacchus.Model
 {
     class Product
     {
-        private string Description { get; set; }
+        public string Description { get; set; }
 
-        private string Ref { get; set; }
+        public string Ref { get; set; }
 
-        private string Brand { get; set; }
+        public string Brand { get; set; }
 
-        private Category Category { get; set; }
+        public SubCategory SubCategory { get; set; }
 
-        private SubCategory SubCategory { get; set; }
-
-        private float PricePreVAT { get; set; }
+        public float PricePreVAT { get; set; }
 
         public Product(string Description, string Ref, string Brand,
-            Category Category, SubCategory SubCategory, float PricePreVAT) {
+            SubCategory SubCategory, float PricePreVAT) {
 
             this.Description = Description;
             this.Ref = Ref;
             this.Brand = Brand;
-            this.Category = Category;
             this.SubCategory = SubCategory;
             this.PricePreVAT = PricePreVAT;
         }

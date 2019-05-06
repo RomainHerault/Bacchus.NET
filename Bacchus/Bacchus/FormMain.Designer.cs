@@ -1,4 +1,9 @@
-﻿namespace Bacchus
+﻿using Bacchus.Model;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace Bacchus
 {
     partial class FormMain
     {
@@ -18,6 +23,26 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        HashSet<Product> productsSet = new HashSet<Product>();
+
+        BindingSource treeViewBs = new BindingSource();
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            foreach (Product myProduct in productsSet) {
+                treeViewBs.Add(myProduct);
+            }
+        }
+
+        private void generateData()
+        {
+            Category myCategory = new Category("MyCategory");
+        
+            SubCategory mySubCategory = new SubCategory("MySubCategory", myCategory);
+
+            Product myProduct = new Product("MyDescription", "0123456789", "MyBrand", mySubCategory, 123.456f);
         }
 
         #region Code généré par le Concepteur Windows Form

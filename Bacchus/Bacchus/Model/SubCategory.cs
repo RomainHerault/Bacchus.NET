@@ -8,9 +8,9 @@ namespace Bacchus.Model
 {
     class SubCategory
     {
-        private string Description { get; set; }
+        public string Description { get; set; }
 
-        private Category Category { get; set; }
+        public Category Category { get; set; }
 
         public SubCategory(string Description, Category Category)
         {
