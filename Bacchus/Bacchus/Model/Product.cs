@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bacchus.Model
 {
-    public class Product
+    class Product
     {
         public string Description { get; set; }
 
@@ -18,17 +18,14 @@ namespace Bacchus.Model
 
         public float PricePreVAT { get; set; }
 
-        public int Quantity { get; set; }
-
         public Product(string Description, string Ref, string Brand,
-            SubCategory SubCategory, float PricePreVAT, int Quantity) {
+            SubCategory SubCategory, float PricePreVAT) {
 
             this.Description = Description;
             this.Ref = Ref;
             this.Brand = Brand;
             this.SubCategory = SubCategory;
             this.PricePreVAT = PricePreVAT;
-            this.Quantity = Quantity;
         }
     }
 }

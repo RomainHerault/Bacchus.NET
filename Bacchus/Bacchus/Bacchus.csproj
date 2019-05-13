@@ -69,11 +69,11 @@
     <Compile Include="DB\DAOSubCategory.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\SubCategory.cs" />
-    <Compile Include="Forms\ProductNew.cs">
+    <Compile Include="Forms\ProductForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ProductNew.Designer.cs">
-      <DependentUpon>ProductNew.cs</DependentUpon>
+    <Compile Include="Forms\ProductForm.Designer.cs">
+      <DependentUpon>ProductForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DB\DAO.cs" />
     <Compile Include="Forms\FormMain.cs">
@@ -91,15 +91,14 @@
     <Compile Include="Model\Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\Parser.cs" />
     <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImportForm.resx">
       <DependentUpon>ImportForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ProductNew.resx">
-      <DependentUpon>ProductNew.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ProductForm.resx">
+      <DependentUpon>ProductForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
