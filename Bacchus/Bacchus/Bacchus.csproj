@@ -69,17 +69,17 @@
     <Compile Include="DB\DAOSubCategory.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\SubCategory.cs" />
-    <Compile Include="ProductNew.cs">
+    <Compile Include="Forms\ProductNew.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProductNew.Designer.cs">
+    <Compile Include="Forms\ProductNew.Designer.cs">
       <DependentUpon>ProductNew.cs</DependentUpon>
     </Compile>
     <Compile Include="DB\DAO.cs" />
-    <Compile Include="FormMain.cs">
+    <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.Designer.cs">
+    <Compile Include="Forms\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ImportForm.cs">
@@ -91,13 +91,14 @@
     <Compile Include="Model\Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormMain.resx">
+    <Compile Include="Utils\Parser.cs" />
+    <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImportForm.resx">
       <DependentUpon>ImportForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProductNew.resx">
+    <EmbeddedResource Include="Forms\ProductNew.resx">
       <DependentUpon>ProductNew.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

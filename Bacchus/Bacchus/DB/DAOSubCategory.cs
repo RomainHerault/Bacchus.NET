@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Bacchus.DB
 {
-    class DAOSubCategory : DAO
+    public class DAOSubCategory : DAO
     {
+        private DAOCategory DaoCategory = new DAOCategory();
         public DAOSubCategory() : base() { }
 
         public int AddSubCategory(SubCategory _SubCategory, int CategoryID)
@@ -42,5 +43,40 @@ namespace Bacchus.DB
                 }
             }
         }
+        public HashSet<SubCategory> getSubCategories()
+        {
+            HashSet<SubCategory> SubCategories = new HashSet<SubCategory>();
+            string QueryString = "SELECT RefFamille, Nom FROM SousFamilles;";
+            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
+            using (Connection)
+            {
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        SubCategories.Add(new SubCategory((string)reader[1], DaoCategory.getCategory((int)reader[0])));
+                    }
+                }
+            }
+            return SubCategories;
+        }
+
+        public SubCategory getSubCategory(int Id)
+        {
+            SubCategory _SubCategory = null;
+            string QueryString = "SELECT RefFamille, Nom FROM SousFamilles WHERE RefSousFamille = @Id;";
+            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
+            command.Parameters.AddWithValue("@Id", Id);
+            using (Connection)
+            {
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    Category _Category = DaoCategory.getCategory((int)reader[0]);
+                    _SubCategory = new SubCategory((string)reader[1], _Category);
+                }
+            }
+            return _SubCategory;
+        }
+
     }
 }

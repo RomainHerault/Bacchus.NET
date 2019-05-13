@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bacchus.DB
 {
-    class DAOBrand : DAO
+    public class DAOBrand : DAO
     {
         public DAOBrand() : base() { }
 
@@ -47,5 +47,40 @@ namespace Bacchus.DB
                 }
             }
         }
+
+        public HashSet<String> getBrands()
+        {
+            HashSet<String> Brands = new HashSet<string>();
+            string QueryString = "SELECT * FROM Marques;";
+            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
+            using (Connection)
+            {
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Brands.Add((string) reader[0]);
+                    }
+                }
+            }
+            return Brands;
+        }
+
+        public string getBrand(int Id)
+        {
+            string Brand = null;
+            string QueryString = "SELECT Nom FROM Marques WHERE RefMarque = @Id;";
+            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
+            command.Parameters.AddWithValue("@Id", Id);
+            using (Connection)
+            {
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                        Brand = (string)reader[0];
+                }
+            }
+            return Brand;
+        }
     }
+
 }
