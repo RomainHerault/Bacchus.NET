@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace Bacchus.DB
 {
-    public class DAOProduct : DAO
+    class DAOProduct : DAO
     {
-        private DAOSubCategory DaoSubCategory = new DAOSubCategory();
-        private DAOBrand DaoBrand = new DAOBrand();
         public DAOProduct() : base() { }
 
         public void AddProduct(Product _Product, int SubcategoryId, int BrandID, int Quantity)
@@ -39,54 +37,6 @@ namespace Bacchus.DB
                         Connection.Close();
                 }
             }
-        }
-
-        public HashSet<Product> getProducts()
-        {
-            HashSet<Product> Products = new HashSet<Product>();
-            string QueryString = "SELECT RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite FROM Articles;";
-            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
-            using (Connection)
-            {
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        string RefArticle = (string)reader[0];
-                        string Description = (string)reader[1];
-                        SubCategory _SubCategory = DaoSubCategory.getSubCategory((int)reader[2]);
-                        String Brand = DaoBrand.getBrand((int)reader[3]);
-                        float Price = (float)reader[4];
-                        int Quantity = (int)reader[5];
-
-                        Products.Add(new Product(Description, RefArticle, Brand, _SubCategory, Price, Quantity));
-                    }
-                }
-            }
-            return Products;
-        }
-
-        public Product getProduct(string Id)
-        {
-            Product _Product = null;
-            string QueryString = "SELECT RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite FROM Articles WHERE RefArticle LIKE @Id;";
-            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
-            command.Parameters.AddWithValue("@Id", Id);
-            using (Connection)
-            {
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    string RefArticle = (string)reader[0];
-                    string Description = (string)reader[1];
-                    SubCategory _SubCategory = DaoSubCategory.getSubCategory((int)reader[2]);
-                    String Brand = DaoBrand.getBrand((int)reader[3]);
-                    float Price = (float)reader[4];
-                    int Quantity = (int)reader[5];
-
-                    _Product = new Product(Description, RefArticle, Brand, _SubCategory, Price, Quantity));
-                }
-            }
-            return _Product;
-        }
+        } 
     }
 }

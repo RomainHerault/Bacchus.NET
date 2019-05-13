@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bacchus.Model
 {
-    public class SubCategory
+    class SubCategory
     {
         public string Description { get; set; }
 
