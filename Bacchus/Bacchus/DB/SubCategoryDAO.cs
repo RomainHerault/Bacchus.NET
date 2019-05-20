@@ -18,11 +18,16 @@ namespace Bacchus.DB
             SQLiteCommand command = new SQLiteCommand("SELECT RefSousFamille FROM SousFamilles WHERE Nom LIKE @nom AND RefFamille = @refFamille", Connection);
             command.Parameters.AddWithValue("@nom", _SubCategory.Description);
             command.Parameters.AddWithValue("@refFamille", CategoryID);
+
+            Connection.Open();
+
             SQLiteDataReader reader = command.ExecuteReader();
 
             // Si la sous-famille existe déjà
             if (reader.Read())
             {
+                if (Connection.State == System.Data.ConnectionState.Open)
+                    Connection.Close();
                 // On retourne son id
                 return (int)reader["RefSousFamille"];
             }
@@ -32,8 +37,6 @@ namespace Bacchus.DB
                 {
                     cmd.Parameters.AddWithValue("@refFamille", CategoryID);
                     cmd.Parameters.AddWithValue("@nom", _SubCategory.Description);
-
-                    Connection.Open();
 
                     int idSubCategory = (int)cmd.ExecuteScalar();
 

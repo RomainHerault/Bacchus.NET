@@ -16,17 +16,26 @@ namespace Bacchus.Utils
         private static ProductDAO ProductDAO = new ProductDAO();
         private static SubCategoryDAO SubCategoryDAO = new SubCategoryDAO();
 
-        public static void ReadFile(string FileContent)
+        public static void ReadFile(string path)
         {
-            string[] Lines = System.IO.File.ReadAllLines(FileContent);
+            string[] Lines = System.IO.File.ReadAllLines(path);
 
+            int AddedProducts = 0;
+            int ExistingProducts = 0;
             foreach (string Line in Lines)
             {
-                WriteStringToDB(Line);
+                if (WriteStringToDB(Line))
+                    AddedProducts++;
+                else
+                    ExistingProducts++;
             }
+            Console.WriteLine("Nombre d'objets ajoutés" + AddedProducts);
+            Console.WriteLine("Nombre d'objets existants" + ExistingProducts);
+
+
         }
 
-        public static void WriteStringToDB(string Line)
+        public static bool WriteStringToDB(string Line)
         {
             string[] Objects = Line.Split(';');
             //Description; Ref; Marque; Famille; Sous - Famille; Prix H.T.
@@ -44,10 +53,11 @@ namespace Bacchus.Utils
             int BrandId = BrandDAO.AddBrand(Brand);
             int CategoryId = CategoryDAO.AddCategory(Category);
             int SubCategoryId = SubCategoryDAO.AddSubCategory(SubCategory, CategoryId);
-            ProductDAO.AddProduct(Product, SubCategoryId, BrandId);
-
-
-
+            if (ProductDAO.AddProduct(Product, SubCategoryId, BrandId))
+                return true;
+            else
+                return false;
         }
+
     }
 }

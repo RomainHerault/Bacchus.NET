@@ -22,11 +22,15 @@ namespace Bacchus.DB
   
             SQLiteCommand command = new SQLiteCommand("SELECT RefMarque FROM Marques WHERE Nom LIKE @nom", Connection);
             command.Parameters.AddWithValue("@nom", Brand.Name);
+            Connection.Open();
             SQLiteDataReader reader = command.ExecuteReader();
          
             // Si la marque existe déjà
             if (reader.Read())
             {
+                if (Connection.State == System.Data.ConnectionState.Open)
+                    Connection.Close();
+
                 // On retourne son id
                 return (int)reader["RefMarque"];
             }
@@ -36,8 +40,6 @@ namespace Bacchus.DB
                 using (command = new SQLiteCommand("INSERT INTO Marques(Nom) VALUES (@nom)", Connection))
                 {
                     command.Parameters.AddWithValue("@nom", Brand.Name);
-
-                    Connection.Open();
 
                     int idBrand = (int)command.ExecuteScalar();
 

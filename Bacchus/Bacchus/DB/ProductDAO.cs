@@ -14,10 +14,11 @@ namespace Bacchus.DB
         private BrandDAO BrandDAO = new BrandDAO();
         public ProductDAO() : base() { }
 
-        public void AddProduct(Product Product, int SubcategoryId, int BrandId)
+        public bool AddProduct(Product Product, int SubcategoryId, int BrandId)
         {
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM Articles WHERE RefArticle LIKE @ref ", Connection);
             command.Parameters.AddWithValue("@ref", Product.Ref);
+            Connection.Open();
             SQLiteDataReader reader = command.ExecuteReader();
 
             // Si l'article n'existe pas
@@ -38,6 +39,14 @@ namespace Bacchus.DB
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
                 }
+                return true;
+            }
+            else
+            {
+                if (Connection.State == System.Data.ConnectionState.Open)
+                    Connection.Close();
+
+                return false;
             }
         }
 

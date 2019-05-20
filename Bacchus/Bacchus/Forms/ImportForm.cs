@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bacchus.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,7 @@ namespace Bacchus.Forms
 {
     public partial class ImportForm : Form
     {
+        private string FilePath;
         public ImportForm()
         {
             InitializeComponent();
@@ -20,34 +22,38 @@ namespace Bacchus.Forms
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-
+            Parser.ReadFile(FilePath);
         }
 
         private void SelectFileButton_Click(object sender, EventArgs e)
         {
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            //var fileContent = string.Empty;
+            //var filePath = string.Empty;
+            Console.WriteLine("Coucou, vous avez bien cliqué sur le bouton séléctionner");
+            using (OpenFileDialog OpenFileDialog = new OpenFileDialog())
             {
-               // openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "csv files (*.csv) |*.csv";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
+                Console.WriteLine("Coucou, la boite de dialogue à du se lancer");
+                // openFileDialog.InitialDirectory = "c:\\";
+                OpenFileDialog.Filter = "csv files (*.csv) |*.csv";
+                OpenFileDialog.FilterIndex = 2;
+                OpenFileDialog.RestoreDirectory = true;
+                Console.WriteLine("Coucou, j'en ai marre");
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                if (OpenFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    Console.WriteLine("Coucou, là vous avez cliqué sur oK");
                     //Get the path of specified file
-                    filePath = openFileDialog.FileName;
+                    this.FilePath = OpenFileDialog.FileName;
 
-                    //Read the contents of the file into a stream
+                   /* //Read the contents of the file into a stream
                     var fileStream = openFileDialog.OpenFile();
 
                     using (StreamReader reader = new StreamReader(fileStream))
                     {
-                        fileContent = reader.ReadToEnd();
+                        this.FilePath = reader.ReadToEnd();
                     }
-
-                    FileTextBox.Text = filePath;
+                    */
+                    FileTextBox.Text = this.FilePath;
                 }
             }
         }

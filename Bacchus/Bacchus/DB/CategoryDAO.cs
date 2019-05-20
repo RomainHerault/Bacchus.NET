@@ -16,11 +16,14 @@ namespace Bacchus.DB
         {
             SQLiteCommand command = new SQLiteCommand("SELECT RefFamille FROM Familles WHERE Nom LIKE @nom", Connection);
             command.Parameters.AddWithValue("@nom", _Category.Description);
+            Connection.Open();
             SQLiteDataReader reader = command.ExecuteReader();
 
             // Si la famille existe déjà
             if (reader.Read())
             {
+                if (Connection.State == System.Data.ConnectionState.Open)
+                    Connection.Close();
                 // On retourne son id
                 return (int)reader["RefFamille"];
             }
@@ -31,7 +34,7 @@ namespace Bacchus.DB
                 {
                     command.Parameters.AddWithValue("@nom", _Category.Description);
 
-                    Connection.Open();
+                    
 
                     int idCategory = (int)command.ExecuteScalar();
 
