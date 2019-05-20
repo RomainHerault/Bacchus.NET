@@ -29,6 +29,12 @@ namespace Bacchus.Manager
             return list;
         }
 
+        public void AddProduct()
+        {
+
+
+        }
+
         public void RefreshProductsSet()
         {
             ProductsSet = ProductDAO.GetProducts();
