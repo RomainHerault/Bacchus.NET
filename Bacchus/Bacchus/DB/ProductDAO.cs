@@ -41,7 +41,7 @@ namespace Bacchus.DB
             }
         }
 
-        public HashSet<Product> getProducts()
+        public HashSet<Product> GetProducts()
         {
             HashSet<Product> Products = new HashSet<Product>();
             string QueryString = "SELECT RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite FROM Articles;";
@@ -54,21 +54,21 @@ namespace Bacchus.DB
                     {
                         string RefArticle = (string)reader[0];
                         string Description = (string)reader[1];
-                        SubCategory _SubCategory = DaoSubCategory.getSubCategory((int)reader[2]);
-                        String Brand = DaoBrand.getBrand((int)reader[3]);
+                        SubCategory SubCategory = DaoSubCategory.GetSubCategory((int)reader[2]);
+                        String Brand = DaoBrand.GetBrand((int)reader[3]);
                         float Price = (float)reader[4];
                         int Quantity = (int)reader[5];
 
-                        Products.Add(new Product(Description, RefArticle, Brand, _SubCategory, Price, Quantity));
+                        Products.Add(new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity));
                     }
                 }
             }
             return Products;
         }
 
-        public Product getProduct(string Id)
+        public Product GetProduct(string Id)
         {
-            Product _Product = null;
+            Product Product = null;
             string QueryString = "SELECT RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite FROM Articles WHERE RefArticle LIKE @Id;";
             SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
             command.Parameters.AddWithValue("@Id", Id);
@@ -78,15 +78,15 @@ namespace Bacchus.DB
                 {
                     string RefArticle = (string)reader[0];
                     string Description = (string)reader[1];
-                    SubCategory _SubCategory = DaoSubCategory.getSubCategory((int)reader[2]);
-                    String Brand = DaoBrand.getBrand((int)reader[3]);
+                    SubCategory SubCategory = DaoSubCategory.GetSubCategory((int)reader[2]);
+                    String Brand = DaoBrand.GetBrand((int)reader[3]);
                     float Price = (float)reader[4];
                     int Quantity = (int)reader[5];
 
-                    _Product = new Product(Description, RefArticle, Brand, _SubCategory, Price, Quantity);
+                    Product = new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity);
                 }
             }
-            return _Product;
+            return Product;
         }
     }
 }

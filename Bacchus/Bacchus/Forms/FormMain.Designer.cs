@@ -41,9 +41,9 @@ namespace Bacchus
             this.importerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.ProductsTreeView = new System.Windows.Forms.TreeView();
+            this.TreeView = new System.Windows.Forms.TreeView();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.ListView = new System.Windows.Forms.ListView();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,15 +98,15 @@ namespace Bacchus
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // ProductsTreeView
+            // TreeView
             // 
-            this.ProductsTreeView.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ProductsTreeView.Location = new System.Drawing.Point(0, 24);
-            this.ProductsTreeView.Margin = new System.Windows.Forms.Padding(2);
-            this.ProductsTreeView.Name = "ProductsTreeView";
-            this.ProductsTreeView.Size = new System.Drawing.Size(92, 320);
-            this.ProductsTreeView.TabIndex = 2;
-            this.ProductsTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ProductsTreeView_NodeMouseClick);
+            this.TreeView.Dock = System.Windows.Forms.DockStyle.Left;
+            this.TreeView.Location = new System.Drawing.Point(0, 24);
+            this.TreeView.Margin = new System.Windows.Forms.Padding(2);
+            this.TreeView.Name = "TreeView";
+            this.TreeView.Size = new System.Drawing.Size(92, 320);
+            this.TreeView.TabIndex = 2;
+            this.TreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ProductsTreeView_NodeMouseClick);
             // 
             // splitter1
             // 
@@ -117,25 +117,25 @@ namespace Bacchus
             this.splitter1.TabIndex = 3;
             this.splitter1.TabStop = false;
             // 
-            // listView1
+            // ListView
             // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(94, 24);
-            this.listView1.Margin = new System.Windows.Forms.Padding(2);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(506, 320);
-            this.listView1.TabIndex = 4;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.ListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ListView.Location = new System.Drawing.Point(94, 24);
+            this.ListView.Margin = new System.Windows.Forms.Padding(2);
+            this.ListView.Name = "ListView";
+            this.ListView.Size = new System.Drawing.Size(506, 320);
+            this.ListView.TabIndex = 4;
+            this.ListView.UseCompatibleStateImageBehavior = false;
+            this.ListView.View = System.Windows.Forms.View.Details;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 366);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.ListView);
             this.Controls.Add(this.splitter1);
-            this.Controls.Add(this.ProductsTreeView);
+            this.Controls.Add(this.TreeView);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -158,9 +158,9 @@ namespace Bacchus
         private System.Windows.Forms.ToolStripMenuItem importerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exporterToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.TreeView ProductsTreeView;
+        private System.Windows.Forms.TreeView TreeView;
         private System.Windows.Forms.Splitter splitter1;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView ListView;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using Bacchus.Forms;
+using Bacchus.Manager;
 using Bacchus.Model;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,12 @@ namespace Bacchus
 {
     public partial class FormMain : Form
     {
+        private ProductManager ProductManager { get; set; }
+
         public FormMain()
         {
+            ProductManager = new ProductManager();
+
             InitializeComponent();
         }
 
@@ -49,7 +54,7 @@ namespace Bacchus
             ProductsSet.Add(myProduct);
         }
 
-        private void ProductsTreeView_Load(object sender, EventArgs e)
+        private void TreeView_Load(object sender, EventArgs e)
         {
             PopulateTreeView();
         }
@@ -67,13 +72,43 @@ namespace Bacchus
 
             foreach (TreeNode Node in Nodes)
             {
-                ProductsTreeView.Nodes.Add(Node);
+                TreeView.Nodes.Add(Node);
             }
+        }
+
+        private void ListView_Load(object sender, EventArgs e)
+        {
+            ListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void ProductsTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            ListView.Columns.Clear();
+            ListView.Items.Clear();
+  
+            switch (e.Node.Text)
+            {
+                case "Articles":
 
+                    // Set the columns
+                    foreach (var column in Product.ListColumns)
+                    {
+                        ColumnHeader columnHeader = new ColumnHeader();
+                        columnHeader.Text = column;
+
+                        ListView.Columns.Add(columnHeader);
+                    }
+
+                    // Set the items
+                    foreach (var item in ProductManager.GetProductsList())
+                    {
+                        ListView.Items.Add(new ListViewItem(
+                            item.ListItems()
+                        ));
+                    }
+
+                    break;
+            }
         }
     }
 }

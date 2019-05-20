@@ -43,7 +43,7 @@ namespace Bacchus.DB
             }
         }
 
-        public HashSet<Category> getCategories()
+        public HashSet<Category> GetCategories()
         {
             HashSet<Category> Categories = new HashSet<Category>();
             string QueryString = "SELECT Nom FROM Familles;";
@@ -61,7 +61,7 @@ namespace Bacchus.DB
             return Categories;
         }
 
-        public Category getCategory(int Id)
+        public Category GetCategory(int Id)
         {
             Category _Category = null;
             string QueryString = "SELECT Nom FROM Familles WHERE RefFamille = @Id;";

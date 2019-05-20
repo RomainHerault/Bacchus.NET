@@ -8,6 +8,8 @@ namespace Bacchus.Model
 {
     public class Product
     {
+        public static string[] ListColumns = { "Ref", "Brand", "Price", "Quantity" };
+
         public string Description { get; set; }
 
         public string Ref { get; set; }
@@ -29,6 +31,11 @@ namespace Bacchus.Model
             this.SubCategory = SubCategory;
             this.PricePreVAT = PricePreVAT;
             this.Quantity = Quantity;
+        }
+
+        public string[] ListItems()
+        {
+            return new string[] { Ref, Brand, PricePreVAT.ToString(), Quantity.ToString() };
         }
     }
 }

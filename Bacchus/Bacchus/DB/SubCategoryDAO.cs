@@ -43,7 +43,7 @@ namespace Bacchus.DB
                 }
             }
         }
-        public HashSet<SubCategory> getSubCategories()
+        public HashSet<SubCategory> GetSubCategories()
         {
             HashSet<SubCategory> SubCategories = new HashSet<SubCategory>();
             string QueryString = "SELECT RefFamille, Nom FROM SousFamilles;";
@@ -54,14 +54,14 @@ namespace Bacchus.DB
                 {
                     while (reader.Read())
                     {
-                        SubCategories.Add(new SubCategory((string)reader[1], DaoCategory.getCategory((int)reader[0])));
+                        SubCategories.Add(new SubCategory((string)reader[1], DaoCategory.GetCategory((int)reader[0])));
                     }
                 }
             }
             return SubCategories;
         }
 
-        public SubCategory getSubCategory(int Id)
+        public SubCategory GetSubCategory(int Id)
         {
             SubCategory _SubCategory = null;
             string QueryString = "SELECT RefFamille, Nom FROM SousFamilles WHERE RefSousFamille = @Id;";
@@ -71,7 +71,7 @@ namespace Bacchus.DB
             {
                 using (SQLiteDataReader reader = command.ExecuteReader())
                 {
-                    Category _Category = DaoCategory.getCategory((int)reader[0]);
+                    Category _Category = DaoCategory.GetCategory((int)reader[0]);
                     _SubCategory = new SubCategory((string)reader[1], _Category);
                 }
             }

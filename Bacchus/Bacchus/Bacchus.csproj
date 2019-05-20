@@ -67,6 +67,11 @@
     <Compile Include="DB\CategoryDAO.cs" />
     <Compile Include="DB\ProductDAO.cs" />
     <Compile Include="DB\SubCategoryDAO.cs" />
+    <Compile Include="Manager\BrandManager.cs" />
+    <Compile Include="Manager\CategoryManager.cs" />
+    <Compile Include="Manager\HashMap.cs" />
+    <Compile Include="Manager\ProductManager.cs" />
+    <Compile Include="Manager\SubCategoryManager.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\SubCategory.cs" />
     <Compile Include="Forms\ProductNew.cs">

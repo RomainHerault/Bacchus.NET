@@ -48,7 +48,7 @@ namespace Bacchus.DB
             }
         }
 
-        public HashSet<String> getBrands()
+        public HashSet<String> GetBrands()
         {
             HashSet<String> Brands = new HashSet<string>();
             string QueryString = "SELECT * FROM Marques;";
@@ -66,7 +66,7 @@ namespace Bacchus.DB
             return Brands;
         }
 
-        public string getBrand(int Id)
+        public string GetBrand(int Id)
         {
             string Brand = null;
             string QueryString = "SELECT Nom FROM Marques WHERE RefMarque = @Id;";
