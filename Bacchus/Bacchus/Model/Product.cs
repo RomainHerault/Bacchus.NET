@@ -14,7 +14,7 @@ namespace Bacchus.Model
 
         public string Ref { get; set; }
 
-        public string Brand { get; set; }
+        public Brand Brand { get; set; }
 
         public SubCategory SubCategory { get; set; }
 
@@ -22,7 +22,7 @@ namespace Bacchus.Model
 
         public int Quantity { get; set; }
 
-        public Product(string Description, string Ref, string Brand,
+        public Product(string Description, string Ref, Brand Brand,
             SubCategory SubCategory, float PricePreVAT, int Quantity) {
 
             this.Description = Description;
@@ -35,7 +35,7 @@ namespace Bacchus.Model
 
         public string[] ListItems()
         {
-            return new string[] { Ref, Brand, PricePreVAT.ToString(), Quantity.ToString() };
+            return new string[] { Ref, Brand.Name, PricePreVAT.ToString(), Quantity.ToString() };
         }
     }
 }

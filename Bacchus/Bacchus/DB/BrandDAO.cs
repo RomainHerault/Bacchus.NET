@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bacchus.Model;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
@@ -16,11 +17,11 @@ namespace Bacchus.DB
         /// </summary>
         /// <param name="brand"></param>
         /// <returns>Retourne l'id de la marque</returns>
-        public int AddBrand(string brand)
+        public int AddBrand(Brand Brand)
         {
   
             SQLiteCommand command = new SQLiteCommand("SELECT RefMarque FROM Marques WHERE Nom LIKE @nom", Connection);
-            command.Parameters.AddWithValue("@nom", brand);
+            command.Parameters.AddWithValue("@nom", Brand.Nom);
             SQLiteDataReader reader = command.ExecuteReader();
          
             //Si la marque existe déjà
@@ -32,13 +33,13 @@ namespace Bacchus.DB
             else
             {
                 //On l'ajoute
-                using (SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Marques(Nom) VALUES (@nom)", Connection))
+                using (command = new SQLiteCommand("INSERT INTO Marques(Nom) VALUES (@nom)", Connection))
                 {
-                    cmd.Parameters.AddWithValue("@nom", brand);
+                    command.Parameters.AddWithValue("@nom", Brand.Nom);
 
                     Connection.Open();
 
-                    int idBrand = (int)cmd.ExecuteScalar();
+                    int idBrand = (int)command.ExecuteScalar();
 
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
@@ -48,9 +49,9 @@ namespace Bacchus.DB
             }
         }
 
-        public HashSet<String> GetBrands()
+        public HashSet<Brand> GetBrands()
         {
-            HashSet<String> Brands = new HashSet<string>();
+            HashSet<Brand> Brands = new HashSet<Brand>();
             string QueryString = "SELECT * FROM Marques;";
             SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
             using (Connection)
@@ -59,27 +60,27 @@ namespace Bacchus.DB
                 {
                     while (reader.Read())
                     {
-                        Brands.Add((string) reader[0]);
+                        Brands.Add(new Brand((string) reader[0]));
                     }
                 }
             }
             return Brands;
         }
 
-        public string GetBrand(int Id)
+        public Brand GetBrand(int Id)
         {
-            string Brand = null;
-            string QueryString = "SELECT Nom FROM Marques WHERE RefMarque = @Id;";
-            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
+            Brand brand = null;
+            string queryString = "SELECT Nom FROM Marques WHERE RefMarque = @Id;";
+            SQLiteCommand command = new SQLiteCommand(queryString, Connection);
             command.Parameters.AddWithValue("@Id", Id);
             using (Connection)
             {
                 using (SQLiteDataReader reader = command.ExecuteReader())
                 {
-                        Brand = (string)reader[0];
+                    brand = new Brand((string)reader[0]);
                 }
             }
-            return Brand;
+            return brand;
         }
     }
 

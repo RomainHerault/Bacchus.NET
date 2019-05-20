@@ -18,22 +18,22 @@ namespace Bacchus.DB
             command.Parameters.AddWithValue("@nom", _Category.Description);
             SQLiteDataReader reader = command.ExecuteReader();
 
-            //Si la famille existe déjà
+            // Si la famille existe déjà
             if (reader.Read())
             {
-                //On retourne son id
+                // On retourne son id
                 return (int)reader["RefFamille"];
             }
             else
             {
-                //On l'ajoute à la bdd
-                using (SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Familles(Nom) VALUES (@nom)", Connection))
+                // On l'ajoute à la bdd
+                using (command = new SQLiteCommand("INSERT INTO Familles(Nom) VALUES (@nom)", Connection))
                 {
-                    cmd.Parameters.AddWithValue("@nom", _Category.Description);
+                    command.Parameters.AddWithValue("@nom", _Category.Description);
 
                     Connection.Open();
 
-                    int idCategory = (int)cmd.ExecuteScalar();
+                    int idCategory = (int)command.ExecuteScalar();
 
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
@@ -45,36 +45,36 @@ namespace Bacchus.DB
 
         public HashSet<Category> GetCategories()
         {
-            HashSet<Category> Categories = new HashSet<Category>();
-            string QueryString = "SELECT Nom FROM Familles;";
-            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
+            HashSet<Category> categories = new HashSet<Category>();
+            string queryString = "SELECT Nom FROM Familles;";
+            SQLiteCommand command = new SQLiteCommand(queryString, Connection);
             using (Connection)
             {
                 using (SQLiteDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Categories.Add(new Category((string)reader[0]));
+                        categories.Add(new Category((string)reader[0]));
                     }
                 }
             }
-            return Categories;
+            return categories;
         }
 
         public Category GetCategory(int Id)
         {
-            Category _Category = null;
-            string QueryString = "SELECT Nom FROM Familles WHERE RefFamille = @Id;";
-            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
+            Category category = null;
+            string queryString = "SELECT Nom FROM Familles WHERE RefFamille = @Id;";
+            SQLiteCommand command = new SQLiteCommand(queryString, Connection);
             command.Parameters.AddWithValue("@Id", Id);
             using (Connection)
             {
                 using (SQLiteDataReader reader = command.ExecuteReader())
                 {
-                    _Category = new Category((string)reader[0]);
+                    category = new Category((string)reader[0]);
                 }
             }
-            return _Category;
+            return category;
         }
 
     }

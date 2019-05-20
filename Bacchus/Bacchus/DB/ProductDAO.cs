@@ -10,30 +10,30 @@ namespace Bacchus.DB
 {
     public class ProductDAO : DAO
     {
-        private SubCategoryDAO DaoSubCategory = new SubCategoryDAO();
-        private BrandDAO DaoBrand = new BrandDAO();
+        private SubCategoryDAO SubCategoryDAO = new SubCategoryDAO();
+        private BrandDAO BrandDAO = new BrandDAO();
         public ProductDAO() : base() { }
 
-        public void AddProduct(Product _Product, int SubcategoryId, int BrandID, int Quantity)
+        public void AddProduct(Product Product, int SubcategoryId, int BrandId, int Quantity)
         {
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM Articles WHERE RefArticle LIKE @ref ", Connection);
-            command.Parameters.AddWithValue("@ref", _Product.Ref);
+            command.Parameters.AddWithValue("@ref", Product.Ref);
             SQLiteDataReader reader = command.ExecuteReader();
 
             //Si l'article n'existe pas
             if (!reader.Read())
             {
-                using (SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Articles(RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite) VALUES (@ref, @desc, @refSubCategory, @refMarque, @price, @quantity)", Connection))
+                using (command = new SQLiteCommand("INSERT INTO Articles(RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite) VALUES (@ref, @desc, @refSubCategory, @refMarque, @price, @quantity)", Connection))
                 {
-                    cmd.Parameters.AddWithValue("@ref", _Product.Ref);
-                    cmd.Parameters.AddWithValue("@desc", _Product.Description);
-                    cmd.Parameters.AddWithValue("@refSubCategory", SubcategoryId);
-                    cmd.Parameters.AddWithValue("@refMarque", BrandID);
-                    cmd.Parameters.AddWithValue("@price", _Product.PricePreVAT);
-                    cmd.Parameters.AddWithValue("@quantity", Quantity);
+                    command.Parameters.AddWithValue("@ref", Product.Ref);
+                    command.Parameters.AddWithValue("@desc", Product.Description);
+                    command.Parameters.AddWithValue("@refSubCategory", SubcategoryId);
+                    command.Parameters.AddWithValue("@refMarque", BrandId);
+                    command.Parameters.AddWithValue("@price", Product.PricePreVAT);
+                    command.Parameters.AddWithValue("@quantity", Quantity);
                     Connection.Open();
 
-                    cmd.ExecuteScalar();
+                    command.ExecuteScalar();
 
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
@@ -43,7 +43,7 @@ namespace Bacchus.DB
 
         public HashSet<Product> GetProducts()
         {
-            HashSet<Product> Products = new HashSet<Product>();
+            HashSet<Product> products = new HashSet<Product>();
             string QueryString = "SELECT RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite FROM Articles;";
             SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
             using (Connection)
@@ -54,16 +54,16 @@ namespace Bacchus.DB
                     {
                         string RefArticle = (string)reader[0];
                         string Description = (string)reader[1];
-                        SubCategory SubCategory = DaoSubCategory.GetSubCategory((int)reader[2]);
-                        String Brand = DaoBrand.GetBrand((int)reader[3]);
+                        SubCategory SubCategory = SubCategoryDAO.GetSubCategory((int)reader[2]);
+                        Brand Brand = BrandDAO.GetBrand((int)reader[3]);
                         float Price = (float)reader[4];
                         int Quantity = (int)reader[5];
 
-                        Products.Add(new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity));
+                        products.Add(new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity));
                     }
                 }
             }
-            return Products;
+            return products;
         }
 
         public Product GetProduct(string Id)
@@ -78,8 +78,8 @@ namespace Bacchus.DB
                 {
                     string RefArticle = (string)reader[0];
                     string Description = (string)reader[1];
-                    SubCategory SubCategory = DaoSubCategory.GetSubCategory((int)reader[2]);
-                    String Brand = DaoBrand.GetBrand((int)reader[3]);
+                    SubCategory SubCategory = SubCategoryDAO.GetSubCategory((int)reader[2]);
+                    Brand Brand = BrandDAO.GetBrand((int)reader[3]);
                     float Price = (float)reader[4];
                     int Quantity = (int)reader[5];
 

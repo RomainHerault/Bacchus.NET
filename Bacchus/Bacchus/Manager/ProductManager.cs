@@ -13,7 +13,7 @@ namespace Bacchus.Manager
 
         private ProductDAO ProductDAO { get; set; }
 
-        private HashSet<Product> Products { get; set; }
+        private HashSet<Product> ProductsSet { get; set; }
 
         public List<Product> GetProductsList()
         {
@@ -29,24 +29,25 @@ namespace Bacchus.Manager
             return list;
         }
 
-        public void RefreshProductsHashMap()
+        public void RefreshProductsSet()
         {
-            Products = ProductDAO.GetProducts();
+            ProductsSet = ProductDAO.GetProducts();
         }
 
         public ProductManager()
         {
-            generateData();
+            ProductDAO = new ProductDAO();
+
+            RefreshProductsSet();
         }
 
-        HashSet<string> BrandsSet = new HashSet<string>();
+        /*HashSet<string> BrandsSet = new HashSet<string>();
         HashSet<Category> CategoriesSet = new HashSet<Category>();
-        HashSet<SubCategory> SubCategoriesSet = new HashSet<SubCategory>();
-        HashSet<Product> ProductsSet = new HashSet<Product>();
+        HashSet<SubCategory> SubCategoriesSet = new HashSet<SubCategory>();*/
 
         private void generateData()
         {
-            string myBrand = "MyBrand";
+            /*string myBrand = "MyBrand";
 
             BrandsSet.Add(myBrand);
 
@@ -60,7 +61,7 @@ namespace Bacchus.Manager
 
             Product myProduct = new Product("MyDescription", "0123456789", "MyBrand", mySubCategory, 123.456f, 2);
 
-            ProductsSet.Add(myProduct);
+            ProductsSet.Add(myProduct);*/
         }
     }
 }

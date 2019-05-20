@@ -8,6 +8,8 @@ namespace Bacchus.Model
 {
     public class SubCategory
     {
+        public static string[] ListColumns = { "Decription", "Category" };
+
         public string Description { get; set; }
 
         public Category Category { get; set; }
@@ -16,6 +18,11 @@ namespace Bacchus.Model
         {
             this.Description = Description;
             this.Category = Category;
+        }
+
+        public string[] ListItems()
+        {
+            return new string[] { Description, Category.Description };
         }
     }
 }
