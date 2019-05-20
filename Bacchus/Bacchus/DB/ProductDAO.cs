@@ -14,7 +14,7 @@ namespace Bacchus.DB
         private BrandDAO BrandDAO = new BrandDAO();
         public ProductDAO() : base() { }
 
-        public void AddProduct(Product Product, int SubcategoryId, int BrandId, int Quantity)
+        public void AddProduct(Product Product, int SubcategoryId, int BrandId)
         {
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM Articles WHERE RefArticle LIKE @ref ", Connection);
             command.Parameters.AddWithValue("@ref", Product.Ref);
@@ -30,7 +30,7 @@ namespace Bacchus.DB
                     command.Parameters.AddWithValue("@refSubCategory", SubcategoryId);
                     command.Parameters.AddWithValue("@refMarque", BrandId);
                     command.Parameters.AddWithValue("@price", Product.PricePreVAT);
-                    command.Parameters.AddWithValue("@quantity", Quantity);
+                    command.Parameters.AddWithValue("@quantity", Product.Quantity);
                     Connection.Open();
 
                     command.ExecuteScalar();
