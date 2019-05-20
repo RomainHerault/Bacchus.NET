@@ -54,16 +54,16 @@ namespace Bacchus.DB
             HashSet<Brand> Brands = new HashSet<Brand>();
             string QueryString = "SELECT * FROM Marques;";
             SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
-            using (Connection)
-            {
-                using (SQLiteDataReader reader = command.ExecuteReader())
+            Connection.Open();
+            using (SQLiteDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         Brands.Add(new Brand((string) reader[0]));
                     }
                 }
-            }
+            if (Connection.State == System.Data.ConnectionState.Open)
+                Connection.Close();
             return Brands;
         }
 
@@ -73,14 +73,14 @@ namespace Bacchus.DB
             string queryString = "SELECT Nom FROM Marques WHERE RefMarque = @Id;";
             SQLiteCommand command = new SQLiteCommand(queryString, Connection);
             command.Parameters.AddWithValue("@Id", Id);
-            using (Connection)
-            {
-                using (SQLiteDataReader reader = command.ExecuteReader())
+            Connection.Open();
+            using (SQLiteDataReader reader = command.ExecuteReader())
                 {
                     brand = new Brand((string)reader[0]);
                 }
-            }
-            return brand;
+            if (Connection.State == System.Data.ConnectionState.Open)
+                Connection.Close();
+            return Brand;
         }
     }
 

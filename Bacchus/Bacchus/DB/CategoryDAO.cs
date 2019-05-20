@@ -45,20 +45,20 @@ namespace Bacchus.DB
 
         public HashSet<Category> GetCategories()
         {
-            HashSet<Category> categories = new HashSet<Category>();
-            string queryString = "SELECT Nom FROM Familles;";
-            SQLiteCommand command = new SQLiteCommand(queryString, Connection);
-            using (Connection)
-            {
-                using (SQLiteDataReader reader = command.ExecuteReader())
+            HashSet<Category> Categories = new HashSet<Category>();
+            string QueryString = "SELECT Nom FROM Familles;";
+            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
+            Connection.Open();
+            using (SQLiteDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         categories.Add(new Category((string)reader[0]));
                     }
                 }
-            }
-            return categories;
+            if (Connection.State == System.Data.ConnectionState.Open)
+                Connection.Close();
+            return Categories;
         }
 
         public Category GetCategory(int Id)
@@ -67,14 +67,14 @@ namespace Bacchus.DB
             string queryString = "SELECT Nom FROM Familles WHERE RefFamille = @Id;";
             SQLiteCommand command = new SQLiteCommand(queryString, Connection);
             command.Parameters.AddWithValue("@Id", Id);
-            using (Connection)
+            Connection.Open();
+            using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    category = new Category((string)reader[0]);
-                }
+                _Category = new Category((string)reader[0]);
             }
-            return category;
+            if (Connection.State == System.Data.ConnectionState.Open)
+                Connection.Close();
+            return _Category;
         }
 
     }

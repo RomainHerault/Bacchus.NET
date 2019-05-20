@@ -10,9 +10,7 @@ namespace Bacchus.DB
     public abstract class DAO
     {
         protected SQLiteConnection Connection;
-
-        private string DatabasePath = "..\\DB\\Bacchus.SQLite";
-
+        private string DatabasePath = "DataSource="+AppDomain.CurrentDomain.BaseDirectory+"\\DB\\Bacchus.SQLite";
         public DAO()
         {
             Connection = new SQLiteConnection(DatabasePath);
