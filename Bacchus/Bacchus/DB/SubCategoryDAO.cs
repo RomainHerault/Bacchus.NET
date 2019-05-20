@@ -20,10 +20,10 @@ namespace Bacchus.DB
             command.Parameters.AddWithValue("@refFamille", CategoryID);
             SQLiteDataReader reader = command.ExecuteReader();
 
-            //Si la sous-famille existe déjà
+            // Si la sous-famille existe déjà
             if (reader.Read())
             {
-                //On retourne son id
+                // On retourne son id
                 return (int)reader["RefSousFamille"];
             }
             else

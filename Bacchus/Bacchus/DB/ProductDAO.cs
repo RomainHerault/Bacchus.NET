@@ -20,7 +20,7 @@ namespace Bacchus.DB
             command.Parameters.AddWithValue("@ref", Product.Ref);
             SQLiteDataReader reader = command.ExecuteReader();
 
-            //Si l'article n'existe pas
+            // Si l'article n'existe pas
             if (!reader.Read())
             {
                 using (command = new SQLiteCommand("INSERT INTO Articles(RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite) VALUES (@ref, @desc, @refSubCategory, @refMarque, @price, @quantity)", Connection))
@@ -53,18 +53,18 @@ namespace Bacchus.DB
                 {
                     string RefArticle = (string)reader[0];
                     string Description = (string)reader[1];
-                    SubCategory SubCategory = DaoSubCategory.GetSubCategory((int)reader[2]);
-                    String Brand = DaoBrand.GetBrand((int)reader[3]);
+                    SubCategory SubCategory = SubCategoryDAO.GetSubCategory((int)reader[2]);
+                    Brand Brand = BrandDAO.GetBrand((int)reader[3]);
                     float Price = (float)reader[4];
                     int Quantity = (int)reader[5];
 
-                    Products.Add(new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity));
+                    products.Add(new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity));
                 }
             }
             if (Connection.State == System.Data.ConnectionState.Open)
                 Connection.Close();
 
-            return Products;
+            return products;
         }
 
         public Product GetProduct(string Id)

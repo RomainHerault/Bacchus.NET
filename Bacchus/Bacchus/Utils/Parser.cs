@@ -32,7 +32,7 @@ namespace Bacchus.Utils
             //Description; Ref; Marque; Famille; Sous - Famille; Prix H.T.
             string Description = Objects[0];
             string Ref = Objects[1];
-            string Brand = Objects[2];
+            Brand Brand = new Brand(Objects[2]);
             Category Category = new Category(Objects[3]);
             SubCategory SubCategory = new SubCategory(Objects[4], Category);
             int Price = 0 ;
