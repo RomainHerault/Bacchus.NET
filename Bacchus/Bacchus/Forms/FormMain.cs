@@ -81,7 +81,7 @@ namespace Bacchus
         {
             ListView.Columns.Clear();
             ListView.Items.Clear();
-  
+
             switch (e.Node.Text)
             {
                 case "Articles":

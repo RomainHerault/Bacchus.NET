@@ -10,12 +10,21 @@ namespace Bacchus.Model
     {
         public static string[] ListColumns = { "Decription", "Category" };
 
+        public int Id { get; set; }
+
         public string Description { get; set; }
 
         public Category Category { get; set; }
 
         public SubCategory(string Description, Category Category)
         {
+            this.Description = Description;
+            this.Category = Category;
+        }
+
+        public SubCategory(int Id, string Description, Category Category)
+        {
+            this.Id = Id;
             this.Description = Description;
             this.Category = Category;
         }
