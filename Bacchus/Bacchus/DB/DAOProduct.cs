@@ -83,7 +83,7 @@ namespace Bacchus.DB
                     float Price = (float)reader[4];
                     int Quantity = (int)reader[5];
 
-                    _Product = new Product(Description, RefArticle, Brand, _SubCategory, Price, Quantity));
+                    _Product = new Product(Description, RefArticle, Brand, _SubCategory, Price, Quantity);
                 }
             }
             return _Product;

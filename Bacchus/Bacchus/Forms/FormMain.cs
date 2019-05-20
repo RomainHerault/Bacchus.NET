@@ -44,7 +44,7 @@ namespace Bacchus
 
             SubCategoriesSet.Add(mySubCategory);
 
-            Product myProduct = new Product("MyDescription", "0123456789", "MyBrand", mySubCategory, 123.456f);
+            Product myProduct = new Product("MyDescription", "0123456789", "MyBrand", mySubCategory, 123.456f, 2);
 
             ProductsSet.Add(myProduct);
         }
