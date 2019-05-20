@@ -67,6 +67,30 @@
     <Compile Include="DB\CategoryDAO.cs" />
     <Compile Include="DB\ProductDAO.cs" />
     <Compile Include="DB\SubCategoryDAO.cs" />
+    <Compile Include="Forms\BrandForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BrandForm.Designer.cs">
+      <DependentUpon>BrandForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CategoryForm.Designer.cs">
+      <DependentUpon>CategoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProductForm.Designer.cs">
+      <DependentUpon>ProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SubCategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SubCategoryForm.Designer.cs">
+      <DependentUpon>SubCategoryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Manager\BrandManager.cs" />
     <Compile Include="Manager\CategoryManager.cs" />
     <Compile Include="Manager\HashMap.cs" />
@@ -75,12 +99,6 @@
     <Compile Include="Model\Brand.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\SubCategory.cs" />
-    <Compile Include="Forms\ProductNew.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ProductNew.Designer.cs">
-      <DependentUpon>ProductNew.cs</DependentUpon>
-    </Compile>
     <Compile Include="DB\DAO.cs" />
     <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
@@ -104,8 +122,17 @@
     <EmbeddedResource Include="Forms\ImportForm.resx">
       <DependentUpon>ImportForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ProductNew.resx">
-      <DependentUpon>ProductNew.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\BrandForm.resx">
+      <DependentUpon>BrandForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CategoryForm.resx">
+      <DependentUpon>CategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProductForm.resx">
+      <DependentUpon>ProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SubCategoryForm.resx">
+      <DependentUpon>SubCategoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

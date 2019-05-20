@@ -8,18 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Bacchus
+namespace Bacchus.Forms
 {
-    public partial class AddProduct : Form
+    public partial class SubCategoryForm : Form
     {
-        public AddProduct()
+        public SubCategoryForm()
         {
             InitializeComponent();
-        }
-
-        private void AddProduct_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
