@@ -3,12 +3,6 @@ using Bacchus.Manager;
 using Bacchus.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bacchus
@@ -49,7 +43,9 @@ namespace Bacchus
 
             SubCategoriesSet.Add(mySubCategory);
 
-            Product myProduct = new Product("MyDescription", "0123456789", "MyBrand", mySubCategory, 123.456f, 2);
+            Brand MyBrand = new Brand("MyBrand");
+
+            Product myProduct = new Product("MyDescription", "0123456789", MyBrand, mySubCategory, 123.456f, 2);
 
             ProductsSet.Add(myProduct);
         }

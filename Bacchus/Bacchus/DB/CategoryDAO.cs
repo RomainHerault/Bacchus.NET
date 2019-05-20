@@ -45,7 +45,7 @@ namespace Bacchus.DB
 
         public HashSet<Category> GetCategories()
         {
-            HashSet<Category> Categories = new HashSet<Category>();
+            HashSet<Category> categories = new HashSet<Category>();
             string QueryString = "SELECT Nom FROM Familles;";
             SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
             Connection.Open();
@@ -58,7 +58,7 @@ namespace Bacchus.DB
                 }
             if (Connection.State == System.Data.ConnectionState.Open)
                 Connection.Close();
-            return Categories;
+            return categories;
         }
 
         public Category GetCategory(int Id)
@@ -70,11 +70,11 @@ namespace Bacchus.DB
             Connection.Open();
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                _Category = new Category((string)reader[0]);
+                category = new Category((string)reader[0]);
             }
             if (Connection.State == System.Data.ConnectionState.Open)
                 Connection.Close();
-            return _Category;
+            return category;
         }
 
     }
