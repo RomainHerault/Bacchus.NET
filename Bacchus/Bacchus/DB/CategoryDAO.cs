@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Bacchus.DB
 {
-    class DAOCategory : DAO
+    public class CategoryDAO : DAO
     {
-        public DAOCategory() : base() { }
+        public CategoryDAO() : base() { }
 
         public int AddCategory(Category _Category)
         {
@@ -41,6 +41,40 @@ namespace Bacchus.DB
                     return idCategory;
                 }
             }
+        }
+
+        public HashSet<Category> getCategories()
+        {
+            HashSet<Category> Categories = new HashSet<Category>();
+            string QueryString = "SELECT Nom FROM Familles;";
+            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
+            using (Connection)
+            {
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Categories.Add(new Category((string)reader[0]));
+                    }
+                }
+            }
+            return Categories;
+        }
+
+        public Category getCategory(int Id)
+        {
+            Category _Category = null;
+            string QueryString = "SELECT Nom FROM Familles WHERE RefFamille = @Id;";
+            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
+            command.Parameters.AddWithValue("@Id", Id);
+            using (Connection)
+            {
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    _Category = new Category((string)reader[0]);
+                }
+            }
+            return _Category;
         }
 
     }

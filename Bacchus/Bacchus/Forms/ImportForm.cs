@@ -18,7 +18,6 @@ namespace Bacchus.Forms
             InitializeComponent();
         }
 
-
         private void AddButton_Click(object sender, EventArgs e)
         {
 
@@ -51,6 +50,11 @@ namespace Bacchus.Forms
                     FileTextBox.Text = filePath;
                 }
             }
+        }
+
+        private void OverwriteButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

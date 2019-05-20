@@ -30,12 +30,5 @@ namespace Bacchus.Model
             this.PricePreVAT = PricePreVAT;
             this.Quantity = Quantity;
         }
-
-        public static string[] ListColumns = { "Ref", "Brand", "Price" };
-
-        public string[] ListItems()
-        {
-            return new string[] { Ref, Brand, PricePreVAT.ToString() };
-        }
     }
 }

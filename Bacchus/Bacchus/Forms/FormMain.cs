@@ -1,5 +1,4 @@
 ﻿using Bacchus.Forms;
-using Bacchus.Manager;
 using Bacchus.Model;
 using System;
 using System.Collections.Generic;
@@ -15,12 +14,8 @@ namespace Bacchus
 {
     public partial class FormMain : Form
     {
-
-        private ProductManager ProductManager { get; set; }
-
         public FormMain()
         {
-            ProductManager = new ProductManager();
             InitializeComponent();
         }
 
@@ -33,6 +28,25 @@ namespace Bacchus
         private void FormMain_Load(object sender, EventArgs e)
         {
             PopulateTreeView();
+        }
+
+        HashSet<Product> ProductsSet = new HashSet<Product>();
+        HashSet<Category> CategoriesSet = new HashSet<Category>();
+        HashSet<SubCategory> SubCategoriesSet = new HashSet<SubCategory>();
+
+        private void generateData()
+        {
+            Category myCategory = new Category("MyCategory");
+
+            CategoriesSet.Add(myCategory);
+
+            SubCategory mySubCategory = new SubCategory("MySubCategory", myCategory);
+
+            SubCategoriesSet.Add(mySubCategory);
+
+            Product myProduct = new Product("MyDescription", "0123456789", "MyBrand", mySubCategory, 123.456f, 2);
+
+            ProductsSet.Add(myProduct);
         }
 
         private void ProductsTreeView_Load(object sender, EventArgs e)
@@ -53,40 +67,13 @@ namespace Bacchus
 
             foreach (TreeNode Node in Nodes)
             {
-                TreeView.Nodes.Add(Node);
+                ProductsTreeView.Nodes.Add(Node);
             }
         }
 
         private void ProductsTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            ListView.Items.Clear();
 
-            switch (e.Node.Text)
-            {
-                case "Articles":
-
-                    // Set the columns
-                    foreach (var column in Product.ListColumns)
-                    {
-                        ListView.Columns.Add(new ColumnHeader(
-                            column
-                        ));
-                    }
-
-                    // Set the items
-                    foreach (var item in ProductManager.GetProductsList())
-                    {
-                        ListView.Items.Add(new ListViewItem(
-                            item.ListItems()
-                        ));
-                    }
-
-                    break;
-            }
-
-            ListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-
-            ListView.Show();
         }
     }
 }

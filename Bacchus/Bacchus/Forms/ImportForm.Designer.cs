@@ -70,6 +70,7 @@
             this.OverwriteButton.TabIndex = 3;
             this.OverwriteButton.Text = "Ecraser";
             this.OverwriteButton.UseVisualStyleBackColor = true;
+            this.OverwriteButton.Click += new System.EventHandler(this.OverwriteButton_Click);
             // 
             // ProgressBar
             // 
