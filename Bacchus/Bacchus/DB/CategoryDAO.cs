@@ -48,16 +48,16 @@ namespace Bacchus.DB
             HashSet<Category> Categories = new HashSet<Category>();
             string QueryString = "SELECT Nom FROM Familles;";
             SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
-            using (Connection)
-            {
-                using (SQLiteDataReader reader = command.ExecuteReader())
+            Connection.Open();
+            using (SQLiteDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         Categories.Add(new Category((string)reader[0]));
                     }
                 }
-            }
+            if (Connection.State == System.Data.ConnectionState.Open)
+                Connection.Close();
             return Categories;
         }
 
@@ -67,13 +67,13 @@ namespace Bacchus.DB
             string QueryString = "SELECT Nom FROM Familles WHERE RefFamille = @Id;";
             SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
             command.Parameters.AddWithValue("@Id", Id);
-            using (Connection)
+            Connection.Open();
+            using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    _Category = new Category((string)reader[0]);
-                }
+                _Category = new Category((string)reader[0]);
             }
+            if (Connection.State == System.Data.ConnectionState.Open)
+                Connection.Close();
             return _Category;
         }
 

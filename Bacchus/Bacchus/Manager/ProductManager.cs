@@ -36,6 +36,8 @@ namespace Bacchus.Manager
 
         public ProductManager()
         {
+            ProductDAO = new ProductDAO();
+            RefreshProductsHashMap();
             generateData();
         }
 
