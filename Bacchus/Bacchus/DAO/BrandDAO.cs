@@ -37,8 +37,8 @@ namespace Bacchus.DB
                 int BrandID = (int)reader["RefMarque"];
                 if (Connection.State == System.Data.ConnectionState.Open)
                     Connection.Close();
-                
-                return null;
+                Brand.Id = BrandID;                
+                return Brand;
             }
             else
             {
@@ -48,12 +48,12 @@ namespace Bacchus.DB
                     command.Parameters.AddWithValue("@refMarque", getId());
                     command.Parameters.AddWithValue("@nom", Brand.Name);
 
-                    int idBrand = (int)command.ExecuteScalar();
+                    int IdBrand = (int)command.ExecuteScalar();
 
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
 
-                    Brand.Id = idBrand;
+                    Brand.Id = IdBrand;
 
                     return Brand;
                 }

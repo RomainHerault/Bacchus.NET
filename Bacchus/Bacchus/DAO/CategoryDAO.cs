@@ -29,10 +29,14 @@ namespace Bacchus.DB
             // Si la famille existe déjà
             if (reader.Read())
             {
+                Category.Id = (int)reader["RefFamille"];
+
                 if (Connection.State == System.Data.ConnectionState.Open)
                     Connection.Close();
-                // On retourne son id
-                return (int)reader["RefFamille"];
+
+
+                // On retourne l'objet
+                return Category;
             }
             else
             {

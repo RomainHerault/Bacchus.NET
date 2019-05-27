@@ -37,8 +37,8 @@ namespace Bacchus.DB
                     command.Parameters.AddWithValue("@ref", Product.Ref);
                     command.Parameters.AddWithValue("@desc", Product.Description);
                     // TODO: Retrieve the ids from the Product object
-                    //command.Parameters.AddWithValue("@refSubCategory", SubcategoryId);
-                    //command.Parameters.AddWithValue("@refMarque", BrandId);
+                    command.Parameters.AddWithValue("@refSubCategory", Product.SubCategory.Id);
+                    command.Parameters.AddWithValue("@refMarque", Product.Brand.Id);
                     command.Parameters.AddWithValue("@price", Product.PricePreVAT);
                     command.Parameters.AddWithValue("@quantity", Product.Quantity);
                     Connection.Open();

@@ -25,7 +25,7 @@ namespace Bacchus.DB
             SQLiteCommand command = new SQLiteCommand("SELECT RefSousFamille FROM SousFamilles WHERE Nom LIKE @nom AND RefFamille = @refFamille", Connection);
            
             command.Parameters.AddWithValue("@nom", SubCategory.Description);
-            command.Parameters.AddWithValue("@refFamille", CategoryID);
+            command.Parameters.AddWithValue("@refFamille", SubCategory.Category.Id);
 
             Connection.Open();
 
@@ -34,18 +34,20 @@ namespace Bacchus.DB
             // Si la sous-famille existe déjà
             if (reader.Read())
             {
+                SubCategory.Id = (int)reader["RefSousFamille"];
                 if (Connection.State == System.Data.ConnectionState.Open)
                     Connection.Close();
-                // On retourne son id
-                return (int)reader["RefSousFamille"];
+                // On retourne l'objet
+
+                return SubCategory
             }
             else
             {
                 using (SQLiteCommand cmd = new SQLiteCommand("INSERT INTO SousFamilles(RefSousFamille, RefFamille, Nom) VALUES (@refSousFamille, @refFamille, @nom)", Connection))
                 {
                     cmd.Parameters.AddWithValue("@refFamille", getId());
-                    cmd.Parameters.AddWithValue("@refFamille", CategoryID);
-                    cmd.Parameters.AddWithValue("@nom", _SubCategory.Description);
+                    cmd.Parameters.AddWithValue("@refFamille", SubCategory.Category.Id);
+                    cmd.Parameters.AddWithValue("@nom", SubCategory.Description);
 
                     int idSubCategory = (int)cmd.ExecuteScalar();
 
