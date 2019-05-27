@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace Bacchus.DB
 {
-    public class ProductDAO : DAO
+    public class ProductDAO : DAO<Product, string>
     {
         private SubCategoryDAO SubCategoryDAO = new SubCategoryDAO();
         private BrandDAO BrandDAO = new BrandDAO();
-        public ProductDAO() : base() { }
 
-        public bool AddProduct(Product Product, int SubcategoryId, int BrandId)
+        public ProductDAO() : base() { }
+        
+        public override Product Add(Product Product)
         {
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM Articles WHERE RefArticle LIKE @ref ", Connection);
             command.Parameters.AddWithValue("@ref", Product.Ref);
@@ -28,8 +29,9 @@ namespace Bacchus.DB
                 {
                     command.Parameters.AddWithValue("@ref", Product.Ref);
                     command.Parameters.AddWithValue("@desc", Product.Description);
-                    command.Parameters.AddWithValue("@refSubCategory", SubcategoryId);
-                    command.Parameters.AddWithValue("@refMarque", BrandId);
+                    // TODO: Retrieve the ids from the Product object
+                    //command.Parameters.AddWithValue("@refSubCategory", SubcategoryId);
+                    //command.Parameters.AddWithValue("@refMarque", BrandId);
                     command.Parameters.AddWithValue("@price", Product.PricePreVAT);
                     command.Parameters.AddWithValue("@quantity", Product.Quantity);
                     Connection.Open();
@@ -39,18 +41,20 @@ namespace Bacchus.DB
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
                 }
-                return true;
+
+                // TODO: Update the Product object
+                return Product;
             }
             else
             {
                 if (Connection.State == System.Data.ConnectionState.Open)
                     Connection.Close();
 
-                return false;
+                return null;
             }
         }
 
-        public HashSet<Product> GetProducts()
+        public override HashSet<Product> GetList()
         {
             HashSet<Product> products = new HashSet<Product>();
             string QueryString = "SELECT RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite FROM Articles;";
@@ -62,8 +66,8 @@ namespace Bacchus.DB
                 {
                     string RefArticle = (string)reader[0];
                     string Description = (string)reader[1];
-                    SubCategory SubCategory = SubCategoryDAO.GetSubCategory((int)reader[2]);
-                    Brand Brand = BrandDAO.GetBrand((int)reader[3]);
+                    SubCategory SubCategory = SubCategoryDAO.Get((int)reader[2]);
+                    Brand Brand = BrandDAO.Get((int)reader[3]);
                     float Price = (float)reader[4];
                     int Quantity = (int)reader[5];
 
@@ -76,7 +80,7 @@ namespace Bacchus.DB
             return products;
         }
 
-        public Product GetProduct(string Id)
+        public override Product Get(string Id)
         {
             Product Product = null;
             string QueryString = "SELECT RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite FROM Articles WHERE RefArticle LIKE @Id;";
@@ -87,8 +91,8 @@ namespace Bacchus.DB
                 {
                     string RefArticle = (string)reader[0];
                     string Description = (string)reader[1];
-                    SubCategory SubCategory = SubCategoryDAO.GetSubCategory((int)reader[2]);
-                    Brand Brand = BrandDAO.GetBrand((int)reader[3]);
+                    SubCategory SubCategory = SubCategoryDAO.Get((int)reader[2]);
+                    Brand Brand = BrandDAO.Get((int)reader[3]);
                     float Price = (float)reader[4];
                     int Quantity = (int)reader[5];
 

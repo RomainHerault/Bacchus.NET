@@ -69,7 +69,7 @@
             this.ValidateButton.Text = "Valider";
             this.ValidateButton.UseVisualStyleBackColor = true;
             // 
-            // NewBrand
+            // BrandForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -78,8 +78,8 @@
             this.Controls.Add(this.ValidateButton);
             this.Controls.Add(this.NameLabel);
             this.Controls.Add(this.NameTextBox);
-            this.Name = "NewBrand";
-            this.Text = "Ajouter une marque";
+            this.Name = "BrandForm";
+            this.Text = "Marque";
             this.ResumeLayout(false);
             this.PerformLayout();
 

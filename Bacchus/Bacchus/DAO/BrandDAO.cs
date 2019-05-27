@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bacchus.DB
 {
-    public class BrandDAO : DAO
+    public class BrandDAO : DAO<Brand, int>
     {
         public BrandDAO() : base() { }
 
@@ -17,9 +17,8 @@ namespace Bacchus.DB
         /// </summary>
         /// <param name="brand"></param>
         /// <returns>Retourne l'id de la marque</returns>
-        public int AddBrand(Brand Brand)
+        public override Brand Add(Brand Brand)
         {
-  
             SQLiteCommand command = new SQLiteCommand("SELECT RefMarque FROM Marques WHERE Nom LIKE @nom", Connection);
             command.Parameters.AddWithValue("@nom", Brand.Name);
             Connection.Open();
@@ -30,9 +29,8 @@ namespace Bacchus.DB
             {
                 if (Connection.State == System.Data.ConnectionState.Open)
                     Connection.Close();
-
-                // On retourne son id
-                return (int)reader["RefMarque"];
+                
+                return null;
             }
             else
             {
@@ -46,12 +44,14 @@ namespace Bacchus.DB
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
 
-                    return idBrand;
+                    Brand.Id = idBrand;
+
+                    return Brand;
                 }
             }
         }
 
-        public HashSet<Brand> GetBrands()
+        public override HashSet<Brand> GetList()
         {
             HashSet<Brand> Brands = new HashSet<Brand>();
             string QueryString = "SELECT * FROM Marques;";
@@ -69,7 +69,7 @@ namespace Bacchus.DB
             return Brands;
         }
 
-        public Brand GetBrand(int Id)
+        public override Brand Get(int Id)
         {
             Brand brand = null;
 

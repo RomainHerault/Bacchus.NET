@@ -87,7 +87,7 @@
             this.CategoryLabel.TabIndex = 22;
             this.CategoryLabel.Text = "Catégorie";
             // 
-            // NewSubCategory
+            // SubCategoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -98,8 +98,8 @@
             this.Controls.Add(this.ValidateButton);
             this.Controls.Add(this.DescriptionLabel);
             this.Controls.Add(this.DescriptionTextBox);
-            this.Name = "NewSubCategory";
-            this.Text = "Ajouter une sous-catégorie";
+            this.Name = "SubCategoryForm";
+            this.Text = "Sous-catégorie";
             this.ResumeLayout(false);
             this.PerformLayout();
 

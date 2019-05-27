@@ -68,7 +68,7 @@
             this.DescriptionTextBox.Size = new System.Drawing.Size(158, 20);
             this.DescriptionTextBox.TabIndex = 17;
             // 
-            // NewCategory
+            // CategoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -77,8 +77,8 @@
             this.Controls.Add(this.ValidateButton);
             this.Controls.Add(this.DescriptionLabel);
             this.Controls.Add(this.DescriptionTextBox);
-            this.Name = "NewCategory";
-            this.Text = "Ajouter une catégorie";
+            this.Name = "CategoryForm";
+            this.Text = "Catégorie";
             this.ResumeLayout(false);
             this.PerformLayout();
 

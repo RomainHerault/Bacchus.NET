@@ -1,10 +1,8 @@
 ﻿
 namespace Bacchus.Model
 {
-    public class Brand
+    public class Brand : IListable
     {
-        public static string[] ListColumns = { "Name" };
-
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -20,7 +18,12 @@ namespace Bacchus.Model
             this.Name = Name;
         }
 
-        public string[] ListItems()
+        public string[] GetListColumns()
+        {
+            return new string[] { "Name" };
+        }
+
+        public string[] GetListItems()
         {
             return new string[] { Name };
         }

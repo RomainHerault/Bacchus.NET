@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Bacchus.Model
 {
-    public class SubCategory
+    public class SubCategory : IListable
     {
-        public static string[] ListColumns = { "Decription", "Category" };
-
         public int Id { get; set; }
 
         public string Description { get; set; }
@@ -29,7 +27,11 @@ namespace Bacchus.Model
             this.Category = Category;
         }
 
-        public string[] ListItems()
+        public string[] GetListColumns() {
+            return new string[] { "Decription", "Category" };
+        }
+
+        public string[] GetListItems()
         {
             return new string[] { Description, Category.Description };
         }

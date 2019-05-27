@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Bacchus.DB
 {
-    public class CategoryDAO : DAO
+    public class CategoryDAO : DAO<Category, int>
     {
         public CategoryDAO() : base() { }
 
-        public int AddCategory(Category _Category)
+        public override Category Add(Category Category)
         {
             SQLiteCommand command = new SQLiteCommand("SELECT RefFamille FROM Familles WHERE Nom LIKE @nom", Connection);
-            command.Parameters.AddWithValue("@nom", _Category.Description);
+            command.Parameters.AddWithValue("@nom", Category.Description);
             Connection.Open();
             SQLiteDataReader reader = command.ExecuteReader();
 
@@ -24,15 +24,16 @@ namespace Bacchus.DB
             {
                 if (Connection.State == System.Data.ConnectionState.Open)
                     Connection.Close();
-                // On retourne son id
-                return (int)reader["RefFamille"];
+
+                // On retourne null
+                return null;
             }
             else
             {
                 // On l'ajoute à la bdd
                 using (command = new SQLiteCommand("INSERT INTO Familles(Nom) VALUES (@nom)", Connection))
                 {
-                    command.Parameters.AddWithValue("@nom", _Category.Description);
+                    command.Parameters.AddWithValue("@nom", Category.Description);
 
                     
 
@@ -41,12 +42,14 @@ namespace Bacchus.DB
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
 
-                    return idCategory;
+                    Category.Id = idCategory;
+
+                    return Category;
                 }
             }
         }
 
-        public HashSet<Category> GetCategories()
+        public override HashSet<Category> GetList()
         {
             HashSet<Category> categories = new HashSet<Category>();
             string QueryString = "SELECT Nom FROM Familles;";
@@ -64,7 +67,7 @@ namespace Bacchus.DB
             return categories;
         }
 
-        public Category GetCategory(int Id)
+        public override Category Get(int Id)
         {
             Category category = null;
             string queryString = "SELECT Nom FROM Familles WHERE RefFamille = @Id;";
