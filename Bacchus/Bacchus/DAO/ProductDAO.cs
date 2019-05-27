@@ -41,7 +41,6 @@ namespace Bacchus.DB
                     command.Parameters.AddWithValue("@refMarque", Product.Brand.Id);
                     command.Parameters.AddWithValue("@price", Product.PricePreVAT);
                     command.Parameters.AddWithValue("@quantity", Product.Quantity);
-                    Connection.Open();
 
                     command.ExecuteScalar();
 

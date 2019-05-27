@@ -42,18 +42,21 @@ namespace Bacchus.Utils
             string Description = Objects[0];
             string Ref = Objects[1];
             Brand Brand = new Brand(Objects[2]);
+            Brand = BrandDAO.Add(Brand);
+
             Category Category = new Category(Objects[3]);
+            Category = CategoryDAO.Add(Category);
+
             SubCategory SubCategory = new SubCategory(Objects[4], Category);
+            SubCategory = SubCategoryDAO.Add(SubCategory);
+
             int Price = 0 ;
+
             Product Product = new Product(Description, Ref, Brand, SubCategory, Price, 0);
 
             Int32.TryParse(Objects[5],out Price);
 
-            //Add to the BD
-            Brand = BrandDAO.Add(Brand);
-            Category = CategoryDAO.Add(Category);
-            SubCategory = SubCategoryDAO.Add(SubCategory);
-            if (ProductDAO.AddProduct(Product) != null)
+            if (ProductDAO.Add(Product) != null)
                 return true;
             else
                 return false;

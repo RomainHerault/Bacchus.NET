@@ -13,7 +13,7 @@ namespace Bacchus
 
         public FormMain()
         {
-            ProductManager = new ProductManager();
+            //ProductManager = new ProductManager();
 
             InitializeComponent();
         }
@@ -83,7 +83,7 @@ namespace Bacchus
             ListView.Items.Clear();
 
             switch (e.Node.Text)
-            {
+            {/*
                 case "Articles":
 
                     // Set the columns
@@ -103,7 +103,7 @@ namespace Bacchus
                         ));
                     }
 
-                    break;
+                    break;*/
             }
         }
     }

@@ -21,39 +21,42 @@ namespace Bacchus.DB
 
         public override Category Add(Category Category)
         {
+            ResetConnection();
             SQLiteCommand command = new SQLiteCommand("SELECT RefFamille FROM Familles WHERE Nom LIKE @nom", Connection);
             command.Parameters.AddWithValue("@nom", Category.Description);
             Connection.Open();
             SQLiteDataReader reader = command.ExecuteReader();
-
+        
             // Si la famille existe déjà
             if (reader.Read())
             {
-                Category.Id = (int)reader["RefFamille"];
+                Console.WriteLine("Category existante");
+                int CategoryId = (int)reader["RefFamille"];
 
+                reader.Close();
                 if (Connection.State == System.Data.ConnectionState.Open)
                     Connection.Close();
 
-
+                Connection.Dispose();
+                Category.Id = CategoryId;
                 // On retourne l'objet
                 return Category;
             }
             else
             {
+                Console.WriteLine("On ajoute la category");
+                ResetConnection();
+                Connection.Open();
                 // On l'ajoute à la bdd
                 using (command = new SQLiteCommand("INSERT INTO Familles(RefFamille, Nom) VALUES (@refFamille, @nom)", Connection))
                 {
-                    command.Parameters.AddWithValue("@refFamille", getId());
-                    command.Parameters.AddWithValue("@nom", _Category.Description);
-
-                    
-
-                    int idCategory = (int)command.ExecuteScalar();
+                    Category.Id = getId();
+                    command.Parameters.AddWithValue("@refFamille", Category.Id);
+                    command.Parameters.AddWithValue("@nom", Category.Description);
+                    command.ExecuteScalar();
 
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
-
-                    Category.Id = idCategory;
 
                     return Category;
                 }

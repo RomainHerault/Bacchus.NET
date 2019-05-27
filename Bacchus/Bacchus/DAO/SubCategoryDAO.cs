@@ -22,6 +22,7 @@ namespace Bacchus.DB
 
         public override SubCategory Add(SubCategory SubCategory/*, int CategoryID*/)
         {
+            ResetConnection();
             SQLiteCommand command = new SQLiteCommand("SELECT RefSousFamille FROM SousFamilles WHERE Nom LIKE @nom AND RefFamille = @refFamille", Connection);
            
             command.Parameters.AddWithValue("@nom", SubCategory.Description);
@@ -34,27 +35,29 @@ namespace Bacchus.DB
             // Si la sous-famille existe déjà
             if (reader.Read())
             {
-                SubCategory.Id = (int)reader["RefSousFamille"];
+                int SubCategoryId = (int)reader["RefSousFamille"];
                 if (Connection.State == System.Data.ConnectionState.Open)
                     Connection.Close();
                 // On retourne l'objet
 
-                return SubCategory
+                SubCategory.Id = SubCategoryId;
+                return SubCategory;
             }
             else
             {
-                using (SQLiteCommand cmd = new SQLiteCommand("INSERT INTO SousFamilles(RefSousFamille, RefFamille, Nom) VALUES (@refSousFamille, @refFamille, @nom)", Connection))
+                ResetConnection();
+                Connection.Open();
+                using (command = new SQLiteCommand("INSERT INTO SousFamilles(RefSousFamille, RefFamille, Nom) VALUES (@refSousFamille, @refFamille, @nom)", Connection))
                 {
-                    cmd.Parameters.AddWithValue("@refFamille", getId());
-                    cmd.Parameters.AddWithValue("@refFamille", SubCategory.Category.Id);
-                    cmd.Parameters.AddWithValue("@nom", SubCategory.Description);
+                    SubCategory.Id = getId();
 
-                    int idSubCategory = (int)cmd.ExecuteScalar();
+                    command.Parameters.AddWithValue("@refSousFamille", SubCategory.Id);
+                    command.Parameters.AddWithValue("@refFamille", SubCategory.Category.Id);
+                    command.Parameters.AddWithValue("@nom", SubCategory.Description);
+                    command.ExecuteScalar();
 
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
-
-                    SubCategory.Id = idSubCategory;
 
                     return SubCategory;
                 }

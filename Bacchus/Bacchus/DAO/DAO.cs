@@ -18,6 +18,14 @@ namespace Bacchus.DB
             Connection = new SQLiteConnection(DatabasePath);
         }
 
+        protected void ResetConnection()
+        {
+            /*if (Connection.State == System.Data.ConnectionState.Open)
+                Connection.Close();
+            Connection.Dispose();*/
+            Connection = new SQLiteConnection(DatabasePath);
+        }
+
         public abstract T Get(P id);
 
         public abstract HashSet<T> GetList();

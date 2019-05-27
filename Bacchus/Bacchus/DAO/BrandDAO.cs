@@ -10,22 +10,38 @@ namespace Bacchus.DB
 {
     public class BrandDAO : DAO<Brand, int>
     {
+        
+        public BrandDAO() : base() { }
+
         private static int Id = 0;
 
         private int getId()
         {
-            return Id++;
+            ResetConnection();
+            SQLiteCommand command = new SQLiteCommand("SELECT MAX(RefMarque) FROM Marques", Connection);
+            Connection.Open();
+
+            object Max = command.ExecuteScalar();
+            int MaxId = int.Parse(Max.ToString());
+
+            if (Connection.State == System.Data.ConnectionState.Open)
+                Connection.Close();
+
+            Connection.Dispose();
+            Console.WriteLine(MaxId);
+            return MaxId+1;
+           // }
         }
 
-        public BrandDAO() : base() { }
 
         /// <summary>
         /// Ajoute une marque à la base de données si elle n'existe pas déjà
         /// </summary>
         /// <param name="brand"></param>
-        /// <returns>Retourne l'id de la marque</returns>
+        /// <returns>Retourne la marque</returns>
         public override Brand Add(Brand Brand)
         {
+            ResetConnection();
             SQLiteCommand command = new SQLiteCommand("SELECT RefMarque FROM Marques WHERE Nom LIKE @nom", Connection);
             command.Parameters.AddWithValue("@nom", Brand.Name);
             Connection.Open();
@@ -35,25 +51,31 @@ namespace Bacchus.DB
             if (reader.Read())
             {
                 int BrandID = (int)reader["RefMarque"];
+
+                reader.Close();
                 if (Connection.State == System.Data.ConnectionState.Open)
                     Connection.Close();
+
+                Connection.Dispose();
+                Console.WriteLine("Marque existante");
                 Brand.Id = BrandID;                
                 return Brand;
             }
             else
             {
+                Console.WriteLine("On ajoute la marque");
+                ResetConnection();
+                Connection.Open();
                 // On l'ajoute
                 using (command = new SQLiteCommand("INSERT INTO Marques(RefMarque,Nom) VALUES (@refMarque,@nom)", Connection))
                 {
-                    command.Parameters.AddWithValue("@refMarque", getId());
+                    Brand.Id = getId();
+                    command.Parameters.AddWithValue("@refMarque", Brand.Id);
                     command.Parameters.AddWithValue("@nom", Brand.Name);
-
-                    int IdBrand = (int)command.ExecuteScalar();
+                    command.ExecuteScalar();
 
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
-
-                    Brand.Id = IdBrand;
 
                     return Brand;
                 }

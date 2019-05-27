@@ -37,7 +37,7 @@ namespace Bacchus.Manager
 
         public void RefreshProductsSet()
         {
-            ProductsSet = ProductDAO.GetProducts();
+            ProductsSet = ProductDAO.GetList();
         }
 
         public ProductManager()
