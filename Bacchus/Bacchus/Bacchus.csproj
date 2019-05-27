@@ -63,10 +63,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DB\BrandDAO.cs" />
-    <Compile Include="DB\CategoryDAO.cs" />
-    <Compile Include="DB\ProductDAO.cs" />
-    <Compile Include="DB\SubCategoryDAO.cs" />
+    <Compile Include="DAO\BrandDAO.cs" />
+    <Compile Include="DAO\CategoryDAO.cs" />
+    <Compile Include="DAO\ProductDAO.cs" />
+    <Compile Include="DAO\SubCategoryDAO.cs" />
     <Compile Include="Forms\BrandForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,7 +99,7 @@
     <Compile Include="Model\Brand.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\SubCategory.cs" />
-    <Compile Include="DB\DAO.cs" />
+    <Compile Include="DAO\DAO.cs" />
     <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
