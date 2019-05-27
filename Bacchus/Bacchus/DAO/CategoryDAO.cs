@@ -12,6 +12,13 @@ namespace Bacchus.DB
     {
         public CategoryDAO() : base() { }
 
+        private static int Id = 0;
+
+        private int getId()
+        {
+            return Id++;
+        }
+
         public int AddCategory(Category _Category)
         {
             SQLiteCommand command = new SQLiteCommand("SELECT RefFamille FROM Familles WHERE Nom LIKE @nom", Connection);
@@ -30,11 +37,10 @@ namespace Bacchus.DB
             else
             {
                 // On l'ajoute à la bdd
-                using (command = new SQLiteCommand("INSERT INTO Familles(Nom) VALUES (@nom)", Connection))
+                using (command = new SQLiteCommand("INSERT INTO Familles(RefFamille, Nom) VALUES (@refFamille, @nom)", Connection))
                 {
+                    command.Parameters.AddWithValue("@refFamille", getId());
                     command.Parameters.AddWithValue("@nom", _Category.Description);
-
-                    
 
                     int idCategory = (int)command.ExecuteScalar();
 

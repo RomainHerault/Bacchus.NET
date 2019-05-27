@@ -12,6 +12,14 @@ namespace Bacchus.DB
     {
         private SubCategoryDAO SubCategoryDAO = new SubCategoryDAO();
         private BrandDAO BrandDAO = new BrandDAO();
+
+        private static int Id = 0;
+
+        private int getId()
+        {
+            return Id++;
+        }
+
         public ProductDAO() : base() { }
 
         public bool AddProduct(Product Product, int SubcategoryId, int BrandId)

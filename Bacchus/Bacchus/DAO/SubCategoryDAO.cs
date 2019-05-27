@@ -13,9 +13,17 @@ namespace Bacchus.DB
         private CategoryDAO DaoCategory = new CategoryDAO();
         public SubCategoryDAO() : base() { }
 
+        private static int Id = 0;
+
+        private int getId()
+        {
+            return Id++;
+        }
+
         public int AddSubCategory(SubCategory _SubCategory, int CategoryID)
         {
             SQLiteCommand command = new SQLiteCommand("SELECT RefSousFamille FROM SousFamilles WHERE Nom LIKE @nom AND RefFamille = @refFamille", Connection);
+           
             command.Parameters.AddWithValue("@nom", _SubCategory.Description);
             command.Parameters.AddWithValue("@refFamille", CategoryID);
 
@@ -33,8 +41,9 @@ namespace Bacchus.DB
             }
             else
             {
-                using (SQLiteCommand cmd = new SQLiteCommand("INSERT INTO SousFamilles(RefFamille, Nom) VALUES (@refFamille, @nom)", Connection))
+                using (SQLiteCommand cmd = new SQLiteCommand("INSERT INTO SousFamilles(RefSousFamille, RefFamille, Nom) VALUES (@refSousFamille, @refFamille, @nom)", Connection))
                 {
+                    cmd.Parameters.AddWithValue("@refFamille", getId());
                     cmd.Parameters.AddWithValue("@refFamille", CategoryID);
                     cmd.Parameters.AddWithValue("@nom", _SubCategory.Description);
 

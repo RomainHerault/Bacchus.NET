@@ -50,10 +50,10 @@ namespace Bacchus.Utils
             Int32.TryParse(Objects[5],out Price);
 
             //Add to the BD
-            int BrandId = BrandDAO.AddBrand(Brand);
-            int CategoryId = CategoryDAO.AddCategory(Category);
-            int SubCategoryId = SubCategoryDAO.AddSubCategory(SubCategory, CategoryId);
-            if (ProductDAO.AddProduct(Product, SubCategoryId, BrandId))
+            Brand = BrandDAO.AddBrand(Brand);
+            Category = CategoryDAO.AddCategory(Category);
+            SubCategory = SubCategoryDAO.AddSubCategory(SubCategory, CategoryId);
+            if (ProductDAO.AddProduct(Product, SubCategoryId, BrandId) != null)
                 return true;
             else
                 return false;

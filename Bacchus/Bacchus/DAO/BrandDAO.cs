@@ -10,6 +10,13 @@ namespace Bacchus.DB
 {
     public class BrandDAO : DAO
     {
+        private static int Id = 0;
+
+        private int getId()
+        {
+            return Id++;
+        }
+
         public BrandDAO() : base() { }
 
         /// <summary>
@@ -28,17 +35,19 @@ namespace Bacchus.DB
             // Si la marque existe déjà
             if (reader.Read())
             {
+                int BrandID = (int)reader["RefMarque"];
                 if (Connection.State == System.Data.ConnectionState.Open)
                     Connection.Close();
 
                 // On retourne son id
-                return (int)reader["RefMarque"];
+                return BrandID;
             }
             else
             {
                 // On l'ajoute
-                using (command = new SQLiteCommand("INSERT INTO Marques(Nom) VALUES (@nom)", Connection))
+                using (command = new SQLiteCommand("INSERT INTO Marques(RefMarque,Nom) VALUES (@refMarque,@nom)", Connection))
                 {
+                    command.Parameters.AddWithValue("@refMarque", getId());
                     command.Parameters.AddWithValue("@nom", Brand.Name);
 
                     int idBrand = (int)command.ExecuteScalar();
@@ -89,6 +98,9 @@ namespace Bacchus.DB
 
             return brand;
         }
+
+        
+
     }
 
 }
