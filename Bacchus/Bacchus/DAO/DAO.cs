@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bacchus.DB
 {
-    public abstract class DAO
+    public abstract class DAO<T, P>
     {
         private static string DatabasePath = "DataSource=" + AppDomain.CurrentDomain.BaseDirectory + "\\DB\\Bacchus.SQLite";
 
@@ -18,5 +18,10 @@ namespace Bacchus.DB
             Connection = new SQLiteConnection(DatabasePath);
         }
 
+        public abstract T Get(P id);
+
+        public abstract HashSet<T> GetList();
+
+        public abstract T Add(T obj);
     }
 }

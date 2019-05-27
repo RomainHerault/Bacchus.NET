@@ -93,11 +93,11 @@
     </Compile>
     <Compile Include="Manager\BrandManager.cs" />
     <Compile Include="Manager\CategoryManager.cs" />
-    <Compile Include="Manager\HashMap.cs" />
     <Compile Include="Manager\ProductManager.cs" />
     <Compile Include="Manager\SubCategoryManager.cs" />
     <Compile Include="Model\Brand.cs" />
     <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\Listable.cs" />
     <Compile Include="Model\SubCategory.cs" />
     <Compile Include="DAO\DAO.cs" />
     <Compile Include="Forms\FormMain.cs">

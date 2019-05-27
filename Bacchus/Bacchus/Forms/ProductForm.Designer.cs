@@ -164,7 +164,7 @@
             this.CancelButton.Text = "Annuler";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
-            // NewProduct
+            // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -183,8 +183,8 @@
             this.Controls.Add(this.RefTextBox);
             this.Controls.Add(this.DescriptionTextBox);
             this.Controls.Add(this.DescriptionLabel);
-            this.Name = "NewProduct";
-            this.Text = "Ajouter un article";
+            this.Name = "ProductForm";
+            this.Text = "Article";
             this.Load += new System.EventHandler(this.NewProduct_Load);
             ((System.ComponentModel.ISupportInitialize)(this.QuantityNumericUpDown)).EndInit();
             this.ResumeLayout(false);

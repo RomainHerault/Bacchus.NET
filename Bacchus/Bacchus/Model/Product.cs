@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Bacchus.Model
 {
-    public class Product
+    public class Product : IListable
     {
-        public static string[] ListColumns = { "Ref", "Brand", "Price", "Quantity" };
-
         public string Ref { get; set; }
 
         public string Description { get; set; }
@@ -33,7 +31,11 @@ namespace Bacchus.Model
             this.Quantity = Quantity;
         }
 
-        public string[] ListItems()
+        public string[] GetListColumns() {
+            return new string[] { "Ref", "Brand", "Price", "Quantity" };
+        }
+
+        public string[] GetListItems()
         {
             return new string[] { Ref, Brand.Name, PricePreVAT.ToString(), Quantity.ToString() };
         }

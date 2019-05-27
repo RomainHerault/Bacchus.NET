@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bacchus.DB
 {
-    public class SubCategoryDAO : DAO
+    public class SubCategoryDAO : DAO<SubCategory, int>
     {
         private CategoryDAO DaoCategory = new CategoryDAO();
         public SubCategoryDAO() : base() { }
@@ -20,11 +20,11 @@ namespace Bacchus.DB
             return Id++;
         }
 
-        public int AddSubCategory(SubCategory _SubCategory, int CategoryID)
+        public override SubCategory Add(SubCategory SubCategory/*, int CategoryID*/)
         {
             SQLiteCommand command = new SQLiteCommand("SELECT RefSousFamille FROM SousFamilles WHERE Nom LIKE @nom AND RefFamille = @refFamille", Connection);
            
-            command.Parameters.AddWithValue("@nom", _SubCategory.Description);
+            command.Parameters.AddWithValue("@nom", SubCategory.Description);
             command.Parameters.AddWithValue("@refFamille", CategoryID);
 
             Connection.Open();
@@ -51,11 +51,14 @@ namespace Bacchus.DB
 
                     if (Connection.State == System.Data.ConnectionState.Open)
                         Connection.Close();
-                    return idSubCategory;
+
+                    SubCategory.Id = idSubCategory;
+
+                    return SubCategory;
                 }
             }
         }
-        public HashSet<SubCategory> GetSubCategories()
+        public override HashSet<SubCategory> GetList()
         {
             HashSet<SubCategory> SubCategories = new HashSet<SubCategory>();
             string QueryString = "SELECT RefFamille, Nom FROM SousFamilles;";
@@ -65,7 +68,7 @@ namespace Bacchus.DB
                 {
                     while (reader.Read())
                     {
-                        SubCategories.Add(new SubCategory((string)reader[1], DaoCategory.GetCategory((int)reader[0])));
+                        SubCategories.Add(new SubCategory((string)reader[1], DaoCategory.Get((int)reader[0])));
                     }
                 }
             if (Connection.State == System.Data.ConnectionState.Open)
@@ -73,7 +76,7 @@ namespace Bacchus.DB
             return SubCategories;
         }
 
-        public SubCategory GetSubCategory(int Id)
+        public override SubCategory Get(int Id)
         {
             SubCategory _SubCategory = null;
             string QueryString = "SELECT RefFamille, Nom FROM SousFamilles WHERE RefSousFamille = @Id;";
@@ -82,7 +85,7 @@ namespace Bacchus.DB
             Connection.Open();
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                Category _Category = DaoCategory.GetCategory((int)reader[0]);
+                Category _Category = DaoCategory.Get((int)reader[0]);
                 _SubCategory = new SubCategory((string)reader[1], _Category);
             }
             if (Connection.State == System.Data.ConnectionState.Open)
