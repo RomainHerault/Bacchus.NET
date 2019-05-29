@@ -9,9 +9,34 @@ namespace Bacchus.DB
 {
     public abstract class DAO<T, P>
     {
-        private static string DatabasePath = "DataSource=" + AppDomain.CurrentDomain.BaseDirectory + "\\DB\\Bacchus.SQLite";
+        protected static string DatabasePath = "DataSource=" + AppDomain.CurrentDomain.BaseDirectory + "\\DB\\Bacchus.SQLite";
 
-        protected SQLiteConnection Connection;
+        protected int getId(string Query)
+        {
+
+            int MaxId;
+            using (SQLiteConnection c = new SQLiteConnection(DatabasePath))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(Query, c))
+                {
+                    object Max = cmd.ExecuteScalar();
+                    Console.WriteLine(Max);
+
+                    if (!Max.ToString().Equals("") && Max.ToString() != null)
+                    {
+                        MaxId = int.Parse(Max.ToString());
+                    }
+                    else
+                    {
+                        MaxId = 0;
+                    }
+                }
+            }
+            Console.WriteLine(MaxId);
+            return MaxId + 1;
+        }
+        /*protected SQLiteConnection Connection;
 
         public DAO()
         {
@@ -20,11 +45,11 @@ namespace Bacchus.DB
 
         protected void ResetConnection()
         {
-            /*if (Connection.State == System.Data.ConnectionState.Open)
+            if (Connection.State == System.Data.ConnectionState.Open)
                 Connection.Close();
-            Connection.Dispose();*/
+            Connection.Dispose();
             Connection = new SQLiteConnection(DatabasePath);
-        }
+        }*/
 
         public abstract T Get(P id);
 

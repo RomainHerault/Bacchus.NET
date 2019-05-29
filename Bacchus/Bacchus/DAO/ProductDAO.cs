@@ -13,76 +13,71 @@ namespace Bacchus.DB
         private SubCategoryDAO SubCategoryDAO = new SubCategoryDAO();
         private BrandDAO BrandDAO = new BrandDAO();
 
-        private static int Id = 0;
-
-        private int getId()
-        {
-            return Id++;
-        }
-
         public ProductDAO() : base() { }
         
         public override Product Add(Product Product)
         {
-            SQLiteCommand command = new SQLiteCommand("SELECT * FROM Articles WHERE RefArticle LIKE @ref ", Connection);
-            command.Parameters.AddWithValue("@ref", Product.Ref);
-            Connection.Open();
-            SQLiteDataReader reader = command.ExecuteReader();
-
-            // Si l'article n'existe pas
-            if (!reader.Read())
+            using (SQLiteConnection c = new SQLiteConnection(DatabasePath))
             {
-                using (command = new SQLiteCommand("INSERT INTO Articles(RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite) VALUES (@ref, @desc, @refSubCategory, @refMarque, @price, @quantity)", Connection))
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM Articles WHERE RefArticle LIKE @ref ", c))
                 {
-                    command.Parameters.AddWithValue("@ref", Product.Ref);
-                    command.Parameters.AddWithValue("@desc", Product.Description);
-                    // TODO: Retrieve the ids from the Product object
-                    command.Parameters.AddWithValue("@refSubCategory", Product.SubCategory.Id);
-                    command.Parameters.AddWithValue("@refMarque", Product.Brand.Id);
-                    command.Parameters.AddWithValue("@price", Product.PricePreVAT);
-                    command.Parameters.AddWithValue("@quantity", Product.Quantity);
+                    cmd.Parameters.AddWithValue("@ref", Product.Ref);
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        // Si l'article n'existe pas
+                        if (!reader.Read())
+                        {
+                            using (SQLiteCommand Command = new SQLiteCommand("INSERT INTO Articles(RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite) VALUES (@ref, @desc, @refSubCategory, @refMarque, @price, @quantity)", c))
+                            {
+                                Command.Parameters.AddWithValue("@ref", Product.Ref);
+                                Command.Parameters.AddWithValue("@desc", Product.Description);
+                                // TODO: Retrieve the ids from the Product object
+                                Command.Parameters.AddWithValue("@refSubCategory", Product.SubCategory.Id);
+                                Command.Parameters.AddWithValue("@refMarque", Product.Brand.Id);
+                                Command.Parameters.AddWithValue("@price", Product.PricePreVAT);
+                                Command.Parameters.AddWithValue("@quantity", Product.Quantity);
 
-                    command.ExecuteScalar();
+                                Command.ExecuteScalar();
+                            }
 
-                    if (Connection.State == System.Data.ConnectionState.Open)
-                        Connection.Close();
+                            // TODO: Update the Product object
+                            return Product;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
                 }
-
-                // TODO: Update the Product object
-                return Product;
-            }
-            else
-            {
-                if (Connection.State == System.Data.ConnectionState.Open)
-                    Connection.Close();
-
-                return null;
-            }
+            }    
         }
 
         public override HashSet<Product> GetList()
         {
             HashSet<Product> products = new HashSet<Product>();
             string QueryString = "SELECT RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite FROM Articles;";
-            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
-            Connection.Open();
-            using (SQLiteDataReader reader = command.ExecuteReader())
+            using (SQLiteConnection c = new SQLiteConnection(DatabasePath))
             {
-                while (reader.Read())
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(QueryString, c))
                 {
-                    string RefArticle = (string)reader[0];
-                    string Description = (string)reader[1];
-                    SubCategory SubCategory = SubCategoryDAO.Get((int)reader[2]);
-                    Brand Brand = BrandDAO.Get((int)reader[3]);
-                    float Price = (float)reader[4];
-                    int Quantity = (int)reader[5];
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string RefArticle = (string)reader[0];
+                            string Description = (string)reader[1];
+                            SubCategory SubCategory = SubCategoryDAO.Get((int)reader[2]);
+                            Brand Brand = BrandDAO.Get((int)reader[3]);
+                            float Price = (float)reader[4];
+                            int Quantity = (int)reader[5];
 
-                    products.Add(new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity));
+                            products.Add(new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity));
+                        }
+                    }
                 }
             }
-            if (Connection.State == System.Data.ConnectionState.Open)
-                Connection.Close();
-
             return products;
         }
 
@@ -90,23 +85,27 @@ namespace Bacchus.DB
         {
             Product Product = null;
             string QueryString = "SELECT RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite FROM Articles WHERE RefArticle LIKE @Id;";
-            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
-            command.Parameters.AddWithValue("@Id", Id);
-            Connection.Open();
-            using (SQLiteDataReader reader = command.ExecuteReader())
+            using (SQLiteConnection c = new SQLiteConnection(DatabasePath))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(QueryString, c))
                 {
-                    string RefArticle = (string)reader[0];
-                    string Description = (string)reader[1];
-                    SubCategory SubCategory = SubCategoryDAO.Get((int)reader[2]);
-                    Brand Brand = BrandDAO.Get((int)reader[3]);
-                    float Price = (float)reader[4];
-                    int Quantity = (int)reader[5];
+                    cmd.Parameters.AddWithValue("@Id", Id);
 
-                    Product = new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity);
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        string RefArticle = (string)reader[0];
+                        string Description = (string)reader[1];
+                        SubCategory SubCategory = SubCategoryDAO.Get((int)reader[2]);
+                        Brand Brand = BrandDAO.Get((int)reader[3]);
+                        float Price = (float)reader[4];
+                        int Quantity = (int)reader[5];
+
+                        Product = new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity);
+                    }
                 }
-            if (Connection.State == System.Data.ConnectionState.Open)
-                Connection.Close();
-                return Product;
+            }
+            return Product;
         }
     }
 }

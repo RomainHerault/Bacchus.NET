@@ -13,24 +13,9 @@ namespace Bacchus.DB
         
         public BrandDAO() : base() { }
 
-        private static int Id = 0;
-
         private int getId()
         {
-            ResetConnection();
-            SQLiteCommand command = new SQLiteCommand("SELECT MAX(RefMarque) FROM Marques", Connection);
-            Connection.Open();
-
-            object Max = command.ExecuteScalar();
-            int MaxId = int.Parse(Max.ToString());
-
-            if (Connection.State == System.Data.ConnectionState.Open)
-                Connection.Close();
-
-            Connection.Dispose();
-            Console.WriteLine(MaxId);
-            return MaxId+1;
-           // }
+            return getId("SELECT MAX(RefMarque) FROM Marques");
         }
 
 
@@ -41,43 +26,38 @@ namespace Bacchus.DB
         /// <returns>Retourne la marque</returns>
         public override Brand Add(Brand Brand)
         {
-            ResetConnection();
-            SQLiteCommand command = new SQLiteCommand("SELECT RefMarque FROM Marques WHERE Nom LIKE @nom", Connection);
-            command.Parameters.AddWithValue("@nom", Brand.Name);
-            Connection.Open();
-            SQLiteDataReader reader = command.ExecuteReader();
-         
-            // Si la marque existe déjà
-            if (reader.Read())
+            using (SQLiteConnection c = new SQLiteConnection(DatabasePath))
             {
-                int BrandID = (int)reader["RefMarque"];
-
-                reader.Close();
-                if (Connection.State == System.Data.ConnectionState.Open)
-                    Connection.Close();
-
-                Connection.Dispose();
-                Console.WriteLine("Marque existante");
-                Brand.Id = BrandID;                
-                return Brand;
-            }
-            else
-            {
-                Console.WriteLine("On ajoute la marque");
-                ResetConnection();
-                Connection.Open();
-                // On l'ajoute
-                using (command = new SQLiteCommand("INSERT INTO Marques(RefMarque,Nom) VALUES (@refMarque,@nom)", Connection))
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand("SELECT RefMarque FROM Marques WHERE Nom LIKE @nom", c))
                 {
-                    Brand.Id = getId();
-                    command.Parameters.AddWithValue("@refMarque", Brand.Id);
-                    command.Parameters.AddWithValue("@nom", Brand.Name);
-                    command.ExecuteScalar();
+                    cmd.Parameters.AddWithValue("@nom", Brand.Name);
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            int BrandID = (int)reader["RefMarque"];
+                            Brand.Id = BrandID;
+                            return Brand;
+                        }
+                        else
+                        {
 
-                    if (Connection.State == System.Data.ConnectionState.Open)
-                        Connection.Close();
+                            Console.WriteLine("On ajoute la marque");
+                            //ResetConnection();
+                            //Connection.Open();
+                            // On l'ajoute
+                            using (SQLiteCommand command = new SQLiteCommand("INSERT INTO Marques(RefMarque,Nom) VALUES (@refMarque,@nom)", c))
+                            {
+                                Brand.Id = getId();
+                                command.Parameters.AddWithValue("@refMarque", Brand.Id);
+                                command.Parameters.AddWithValue("@nom", Brand.Name);
+                                command.ExecuteNonQuery();
 
-                    return Brand;
+                                return Brand;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -85,18 +65,22 @@ namespace Bacchus.DB
         public override HashSet<Brand> GetList()
         {
             HashSet<Brand> Brands = new HashSet<Brand>();
-            string QueryString = "SELECT * FROM Marques;";
-            SQLiteCommand command = new SQLiteCommand(QueryString, Connection);
-            Connection.Open();
-            using (SQLiteDataReader reader = command.ExecuteReader())
+
+            using (SQLiteConnection c = new SQLiteConnection(DatabasePath))
+            {
+                c.Open();
+                string QueryString = "SELECT * FROM Marques;";
+                using (SQLiteCommand cmd = new SQLiteCommand(QueryString, c))
                 {
-                    while (reader.Read())
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
                     {
-                        Brands.Add(new Brand((string) reader[0]));
+                        while (reader.Read())
+                        {
+                            Brands.Add(new Brand((string)reader[0]));
+                        }
                     }
                 }
-            if (Connection.State == System.Data.ConnectionState.Open)
-                Connection.Close();
+            }
             return Brands;
         }
 
@@ -104,19 +88,20 @@ namespace Bacchus.DB
         {
             Brand brand = null;
 
-            string queryString = "SELECT Nom FROM Marques WHERE RefMarque = @Id;";
+            string QueryString = "SELECT Nom FROM Marques WHERE RefMarque = @Id;";
 
-            SQLiteCommand command = new SQLiteCommand(queryString, Connection);
-            command.Parameters.AddWithValue("@Id", Id);
-            Connection.Open();
-
-            using (SQLiteDataReader reader = command.ExecuteReader())
+            using (SQLiteConnection c = new SQLiteConnection(DatabasePath))
             {
-                brand = new Brand((string)reader[0]);
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(QueryString, c))
+                {
+                    cmd.Parameters.AddWithValue("@Id", Id);
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        brand = new Brand((string)reader[0]);
+                    }
+                }
             }
-
-            if (Connection.State == System.Data.ConnectionState.Open)
-                Connection.Close();
 
             return brand;
         }
