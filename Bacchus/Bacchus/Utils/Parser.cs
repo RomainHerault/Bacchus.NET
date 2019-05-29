@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Bacchus.Utils
 {
@@ -16,10 +17,17 @@ namespace Bacchus.Utils
         private static ProductDAO ProductDAO = new ProductDAO();
         private static SubCategoryDAO SubCategoryDAO = new SubCategoryDAO();
 
-        public static void ReadFile(string path)
+        public static void ReadFile(string path, ProgressBar Pbar)
         {
             string[] Lines = System.IO.File.ReadAllLines(path);
 
+            // Set the initial value of the ProgressBar.
+            Pbar.Value = 1;
+            // Set the Step property to a value of 1 to represent each file being copied.
+            Pbar.Step = 1;
+
+            Pbar.Minimum = 1;
+            Pbar.Maximum = Lines.Length;
             int AddedProducts = 0;
             int ExistingProducts = 0;
             foreach (string Line in Lines)
@@ -28,11 +36,10 @@ namespace Bacchus.Utils
                     AddedProducts++;
                 else
                     ExistingProducts++;
+                Pbar.PerformStep();
             }
             Console.WriteLine("Nombre d'objets ajoutés" + AddedProducts);
             Console.WriteLine("Nombre d'objets existants" + ExistingProducts);
-
-
         }
 
         public static bool WriteStringToDB(string Line)

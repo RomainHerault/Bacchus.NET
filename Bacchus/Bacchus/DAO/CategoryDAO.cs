@@ -31,7 +31,6 @@ namespace Bacchus.DB
                         // Si la famille existe déjà
                         if (reader.Read())
                         {
-                            Console.WriteLine("Category existante");
                             int CategoryId = (int)reader["RefFamille"];
 
                             Category.Id = CategoryId;
@@ -40,8 +39,6 @@ namespace Bacchus.DB
                         }
                         else
                         {
-                            Console.WriteLine("On ajoute la category");
-
                             // On l'ajoute à la bdd
                             using (SQLiteCommand Command = new SQLiteCommand("INSERT INTO Familles(RefFamille, Nom) VALUES (@refFamille, @nom)", c))
                             {

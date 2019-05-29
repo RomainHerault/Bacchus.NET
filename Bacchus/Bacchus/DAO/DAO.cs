@@ -11,6 +11,18 @@ namespace Bacchus.DB
     {
         protected static string DatabasePath = "DataSource=" + AppDomain.CurrentDomain.BaseDirectory + "\\DB\\Bacchus.SQLite";
 
+        public static void DeleteDatabase()
+        {
+            using (SQLiteConnection c = new SQLiteConnection(DatabasePath))
+            {
+                c.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand("DELETE FROM Articles; DELETE FROM SousFamilles; DELETE FROM Familles; DELETE FROM Marques;", c))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         protected int getId(string Query)
         {
 
@@ -36,21 +48,6 @@ namespace Bacchus.DB
             Console.WriteLine(MaxId);
             return MaxId + 1;
         }
-        /*protected SQLiteConnection Connection;
-
-        public DAO()
-        {
-            Connection = new SQLiteConnection(DatabasePath);
-        }
-
-        protected void ResetConnection()
-        {
-            if (Connection.State == System.Data.ConnectionState.Open)
-                Connection.Close();
-            Connection.Dispose();
-            Connection = new SQLiteConnection(DatabasePath);
-        }*/
-
         public abstract T Get(P id);
 
         public abstract HashSet<T> GetList();

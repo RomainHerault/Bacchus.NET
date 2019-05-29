@@ -1,4 +1,5 @@
-﻿using Bacchus.Utils;
+﻿using Bacchus.DB;
+using Bacchus.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ namespace Bacchus.Forms
     public partial class ImportForm : Form
     {
         private string FilePath;
+
         public ImportForm()
         {
             InitializeComponent();
@@ -22,11 +24,18 @@ namespace Bacchus.Forms
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            Parser.ReadFile(FilePath);
+            Parser.ReadFile(FilePath, ProgressBar);
+        }
+
+        private void OverwriteButton_Click(object sender, EventArgs e)
+        {
+            DAO<string,int>.DeleteDatabase();
+            Parser.ReadFile(FilePath, ProgressBar);
         }
 
         private void SelectFileButton_Click(object sender, EventArgs e)
         {
+            ProgressBar.Value = ProgressBar.Minimum;
             using (OpenFileDialog OpenFileDialog = new OpenFileDialog())
             {
                 // openFileDialog.InitialDirectory = "c:\\";
@@ -41,11 +50,6 @@ namespace Bacchus.Forms
                     FileTextBox.Text = this.FilePath;
                 }
             }
-        }
-
-        private void OverwriteButton_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
