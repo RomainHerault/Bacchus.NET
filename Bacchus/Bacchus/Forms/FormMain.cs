@@ -21,13 +21,13 @@ namespace Bacchus
         private void importerToolStripMenuItem_Click(object sender, EventArgs e)
         {
            ImportForm Import = new ImportForm();
-           Import.Show();
+           Import.ShowDialog();
         }
 
         private void exporterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ExportForm Export = new ExportForm();
-            Export.Show();
+            Export.ShowDialog();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
