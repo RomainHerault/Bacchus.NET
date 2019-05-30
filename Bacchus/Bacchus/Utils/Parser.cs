@@ -2,6 +2,7 @@
 using Bacchus.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -31,19 +32,27 @@ namespace Bacchus.Utils
             Pbar.Maximum = Lines.Length;
             int AddedProducts = 0;
             int ExistingProducts = 0;
+            bool FirstLine = true;
             foreach (string Line in Lines)
             {
-                if (WriteStringToDB(Line))
-                    AddedProducts++;
+                if(FirstLine)
+                {
+                    FirstLine = false;
+                }
                 else
-                    ExistingProducts++;
+                {
+                    if (WriteStringToDB(Line))
+                        AddedProducts++;
+                    else
+                        ExistingProducts++;
+                }
                 Pbar.PerformStep();
             }
             string Message = "Importation réussie ! \n" +
                              "Nombre d'articles ajoutés " + AddedProducts + "\n" +
                              "Nombre d'articles déjà existants " + ExistingProducts;
-            Console.WriteLine("Nombre d'objets ajoutés" + AddedProducts);
-            Console.WriteLine("Nombre d'objets existants" + ExistingProducts);
+            Console.WriteLine("Nombre d'objets ajoutés " + AddedProducts);
+            Console.WriteLine("Nombre d'objets existants " + ExistingProducts);
 
             return Message;
         }
@@ -63,11 +72,12 @@ namespace Bacchus.Utils
             SubCategory SubCategory = new SubCategory(Objects[4], Category);
             SubCategory = SubCategoryDAO.Add(SubCategory);
 
-            int Price = 0;
-
+            float Price = 0;
+            Objects[5] = Objects[5].Replace(',', '.');
+            Price = float.Parse(Objects[5], CultureInfo.InvariantCulture.NumberFormat);
             Product Product = new Product(Description, Ref, Brand, SubCategory, Price, 0);
 
-            Int32.TryParse(Objects[5], out Price);
+            
 
             if (ProductDAO.Add(Product) != null)
                 return true;
@@ -82,10 +92,11 @@ namespace Bacchus.Utils
             Pbar.Minimum = 1;
             
             HashSet<Product> Products = ProductDAO.GetList();
-            string[] Lines = new string[Products.Count];
+            string[] Lines = new string[Products.Count+1];
 
             Pbar.Maximum = Lines.Length;
-            int LinesCount = 0;
+            int LinesCount = 1;
+            Lines[0] = "Description;Ref;Marque;Famille;Sous-Famille;Prix H.T.";
             foreach (Product Product in Products)
             {
                 string productString = "";
@@ -100,14 +111,13 @@ namespace Bacchus.Utils
                 productString += Product.SubCategory.Description;
                 productString += SEPARATOR;
                 productString += Product.PricePreVAT;
-                productString += SEPARATOR;
                 Lines[LinesCount] = productString;
                 LinesCount++;
                 Pbar.PerformStep();
             }
             System.IO.File.WriteAllLines(Path, Lines);
             string Message = "Exportation réussie \n" +
-                             LinesCount + " articles exportés";
+                             Products.Count + " articles exportés";
             return Message;
         }
     }

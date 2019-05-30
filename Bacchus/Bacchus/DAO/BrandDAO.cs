@@ -42,11 +42,6 @@ namespace Bacchus.DB
                         }
                         else
                         {
-
-                            Console.WriteLine("On ajoute la marque");
-                            //ResetConnection();
-                            //Connection.Open();
-                            // On l'ajoute
                             using (SQLiteCommand command = new SQLiteCommand("INSERT INTO Marques(RefMarque,Nom) VALUES (@refMarque,@nom)", c))
                             {
                                 Brand.Id = getId();

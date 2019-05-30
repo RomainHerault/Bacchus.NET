@@ -33,8 +33,6 @@ namespace Bacchus.DB
                 using (SQLiteCommand cmd = new SQLiteCommand(Query, c))
                 {
                     object Max = cmd.ExecuteScalar();
-                    Console.WriteLine(Max);
-
                     if (!Max.ToString().Equals("") && Max.ToString() != null)
                     {
                         MaxId = int.Parse(Max.ToString());
@@ -45,7 +43,6 @@ namespace Bacchus.DB
                     }
                 }
             }
-            Console.WriteLine(MaxId);
             return MaxId + 1;
         }
         public abstract T Get(P id);
