@@ -21,7 +21,7 @@ namespace Bacchus.Utils
 
         public static string ReadFile(string Path, ProgressBar Pbar)
         {
-            string[] Lines = System.IO.File.ReadAllLines(Path);
+            string[] Lines = System.IO.File.ReadAllLines(Path, Encoding.Default);
 
             // Set the initial value of the ProgressBar.
             Pbar.Value = 1;
@@ -115,7 +115,7 @@ namespace Bacchus.Utils
                 LinesCount++;
                 Pbar.PerformStep();
             }
-            System.IO.File.WriteAllLines(Path, Lines);
+            System.IO.File.WriteAllLines(Path, Lines, Encoding.Default);
             string Message = "Exportation réussie \n" +
                              Products.Count + " articles exportés";
             return Message;
