@@ -36,9 +36,9 @@
             // 
             // SelectButton
             // 
-            this.SelectButton.Location = new System.Drawing.Point(424, 27);
+            this.SelectButton.Location = new System.Drawing.Point(471, 31);
             this.SelectButton.Name = "SelectButton";
-            this.SelectButton.Size = new System.Drawing.Size(197, 55);
+            this.SelectButton.Size = new System.Drawing.Size(124, 29);
             this.SelectButton.TabIndex = 0;
             this.SelectButton.Text = "Séléctionner";
             this.SelectButton.UseVisualStyleBackColor = true;
@@ -48,14 +48,14 @@
             // 
             this.FileTextBox.Location = new System.Drawing.Point(28, 34);
             this.FileTextBox.Name = "FileTextBox";
-            this.FileTextBox.Size = new System.Drawing.Size(338, 22);
+            this.FileTextBox.Size = new System.Drawing.Size(393, 22);
             this.FileTextBox.TabIndex = 1;
             // 
             // ExportButton
             // 
-            this.ExportButton.Location = new System.Drawing.Point(205, 110);
+            this.ExportButton.Location = new System.Drawing.Point(262, 93);
             this.ExportButton.Name = "ExportButton";
-            this.ExportButton.Size = new System.Drawing.Size(173, 89);
+            this.ExportButton.Size = new System.Drawing.Size(139, 55);
             this.ExportButton.TabIndex = 2;
             this.ExportButton.Text = "Exporter";
             this.ExportButton.UseVisualStyleBackColor = true;
@@ -63,16 +63,16 @@
             // 
             // ProgressBar
             // 
-            this.ProgressBar.Location = new System.Drawing.Point(33, 240);
+            this.ProgressBar.Location = new System.Drawing.Point(28, 193);
             this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(587, 20);
+            this.ProgressBar.Size = new System.Drawing.Size(567, 20);
             this.ProgressBar.TabIndex = 3;
             // 
             // ExportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(642, 277);
+            this.ClientSize = new System.Drawing.Size(642, 230);
             this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.ExportButton);
             this.Controls.Add(this.FileTextBox);

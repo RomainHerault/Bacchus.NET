@@ -37,10 +37,10 @@
             // 
             // SelectFileButton
             // 
-            this.SelectFileButton.Location = new System.Drawing.Point(378, 24);
-            this.SelectFileButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SelectFileButton.Location = new System.Drawing.Point(484, 28);
+            this.SelectFileButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SelectFileButton.Name = "SelectFileButton";
-            this.SelectFileButton.Size = new System.Drawing.Size(80, 46);
+            this.SelectFileButton.Size = new System.Drawing.Size(122, 27);
             this.SelectFileButton.TabIndex = 0;
             this.SelectFileButton.Text = "Sélectionner";
             this.SelectFileButton.UseVisualStyleBackColor = true;
@@ -48,18 +48,18 @@
             // 
             // FileTextBox
             // 
-            this.FileTextBox.Location = new System.Drawing.Point(38, 24);
-            this.FileTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.FileTextBox.Location = new System.Drawing.Point(51, 30);
+            this.FileTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.FileTextBox.Name = "FileTextBox";
-            this.FileTextBox.Size = new System.Drawing.Size(306, 20);
+            this.FileTextBox.Size = new System.Drawing.Size(407, 22);
             this.FileTextBox.TabIndex = 1;
             // 
             // AddButton
             // 
-            this.AddButton.Location = new System.Drawing.Point(45, 74);
-            this.AddButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddButton.Location = new System.Drawing.Point(108, 82);
+            this.AddButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(103, 36);
+            this.AddButton.Size = new System.Drawing.Size(137, 44);
             this.AddButton.TabIndex = 2;
             this.AddButton.Text = "Ajouter";
             this.AddButton.UseVisualStyleBackColor = true;
@@ -67,10 +67,10 @@
             // 
             // OverwriteButton
             // 
-            this.OverwriteButton.Location = new System.Drawing.Point(232, 74);
-            this.OverwriteButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.OverwriteButton.Location = new System.Drawing.Point(373, 82);
+            this.OverwriteButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.OverwriteButton.Name = "OverwriteButton";
-            this.OverwriteButton.Size = new System.Drawing.Size(142, 80);
+            this.OverwriteButton.Size = new System.Drawing.Size(149, 44);
             this.OverwriteButton.TabIndex = 3;
             this.OverwriteButton.Text = "Ecraser";
             this.OverwriteButton.UseVisualStyleBackColor = true;
@@ -78,23 +78,23 @@
             // 
             // ProgressBar
             // 
-            this.ProgressBar.Location = new System.Drawing.Point(73, 184);
-            this.ProgressBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ProgressBar.Location = new System.Drawing.Point(46, 163);
+            this.ProgressBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(234, 19);
+            this.ProgressBar.Size = new System.Drawing.Size(560, 30);
             this.ProgressBar.TabIndex = 4;
             // 
             // ImportForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 226);
+            this.ClientSize = new System.Drawing.Size(633, 209);
             this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.OverwriteButton);
             this.Controls.Add(this.AddButton);
             this.Controls.Add(this.FileTextBox);
             this.Controls.Add(this.SelectFileButton);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ImportForm";
             this.Text = "Importer";
             this.ResumeLayout(false);
