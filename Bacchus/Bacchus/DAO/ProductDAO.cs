@@ -70,7 +70,7 @@ namespace Bacchus.DB
                             string Description = (string)reader[1];
                             SubCategory SubCategory = SubCategoryDAO.Get((int)reader[2]);
                             Brand Brand = BrandDAO.Get((int)reader[3]);
-                            float Price = (float)reader[4];
+                            float Price = (float)(double)reader[4];
                             int Quantity = (int)reader[5];
 
                             products.Add(new Product(Description, RefArticle, Brand, SubCategory, Price, Quantity));

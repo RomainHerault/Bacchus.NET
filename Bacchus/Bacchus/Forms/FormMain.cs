@@ -24,6 +24,12 @@ namespace Bacchus
            Import.Show();
         }
 
+        private void exporterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportForm Export = new ExportForm();
+            Export.Show();
+        }
+
         private void FormMain_Load(object sender, EventArgs e)
         {
             PopulateTreeView();
@@ -106,5 +112,7 @@ namespace Bacchus
                     break;*/
             }
         }
+
+        
     }
 }

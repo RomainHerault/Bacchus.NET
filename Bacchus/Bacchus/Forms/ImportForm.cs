@@ -24,13 +24,31 @@ namespace Bacchus.Forms
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            Parser.ReadFile(FilePath, ProgressBar);
+            if(FilePath == null || FilePath.Equals(""))
+            {
+                MessageBox.Show("Vous devez choisir un fichier", "Importation");
+            }
+            else
+            {
+                string Message = Parser.ReadFile(FilePath, ProgressBar);
+                MessageBox.Show(Message, "Importation");
+            }
+            
         }
 
         private void OverwriteButton_Click(object sender, EventArgs e)
         {
-            DAO<string,int>.DeleteDatabase();
-            Parser.ReadFile(FilePath, ProgressBar);
+            if (FilePath == null || FilePath.Equals(""))
+            {
+                MessageBox.Show("Vous devez choisir un fichier", "Importation");
+            }
+            else
+            {
+                DAO<string, int>.DeleteDatabase();
+                string Message = Parser.ReadFile(FilePath, ProgressBar);
+                MessageBox.Show(Message, "Importation");
+            }
+            
         }
 
         private void SelectFileButton_Click(object sender, EventArgs e)

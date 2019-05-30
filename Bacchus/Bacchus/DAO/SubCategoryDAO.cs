@@ -96,6 +96,7 @@ namespace Bacchus.DB
                     cmd.Parameters.AddWithValue("@Id", Id);
                     using (SQLiteDataReader reader = cmd.ExecuteReader())
                     {
+                        reader.Read();
                         Category Category = DaoCategory.Get((int)reader[0]);
                         SubCategory = new SubCategory((string)reader[1], Category);
                     }

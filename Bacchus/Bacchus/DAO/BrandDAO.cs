@@ -98,6 +98,7 @@ namespace Bacchus.DB
                     cmd.Parameters.AddWithValue("@Id", Id);
                     using (SQLiteDataReader reader = cmd.ExecuteReader())
                     {
+                        reader.Read();
                         brand = new Brand((string)reader[0]);
                     }
                 }
